@@ -11,7 +11,7 @@ export function meta() {
 export default function CookPhone() {
   const { key = "" } = useParams();
   const [params, setParams] = useSearchParams();
-  const { kitchen, error, loading } = useKitchen(key);
+  const { kitchen, clockOffset, error, loading } = useKitchen(key);
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     const id = setInterval(() => setNow(Date.now()), 1000);
@@ -58,7 +58,7 @@ export default function CookPhone() {
         {kitchen.plan.slipMinutes ? ` (${kitchen.plan.slipMinutes} min late)` : ""}
       </p>
       {current ? (
-        <StepCard step={current} now={now} units={kitchen.units} />
+        <StepCard step={current} now={now + clockOffset} units={kitchen.units} />
       ) : (
         <p className="mt-6 text-lg">Nothing left for you. Go set the table.</p>
       )}
@@ -73,12 +73,16 @@ export default function CookPhone() {
               Start
             </button>
           )}
-          <button type="button" disabled={busy} className="rounded-lg border py-2" onClick={() => run("report-delay", { stepId: current.id, extraMinutes: 5 })}>
-            Need 5 more min
-          </button>
-          <button type="button" disabled={busy} className="rounded-lg border py-2" onClick={() => run("report-delay", { stepId: current.id, extraMinutes: 10 })}>
-            Need 10 more min
-          </button>
+          {current.state === "running" ? (
+            <>
+              <button type="button" disabled={busy} className="rounded-lg border py-2" onClick={() => run("report-delay", { stepId: current.id, extraMinutes: 5 })}>
+                Need 5 more min
+              </button>
+              <button type="button" disabled={busy} className="rounded-lg border py-2" onClick={() => run("report-delay", { stepId: current.id, extraMinutes: 10 })}>
+                Need 10 more min
+              </button>
+            </>
+          ) : null}
         </div>
       ) : null}
       {after.length ? (
@@ -103,7 +107,10 @@ function StepCard({ step, now, units }: { step: PlanStep; now: number; units: st
   const secs = Math.round((target - now) / 1000);
   const label = step.state === "running" ? (secs >= 0 ? "Done in" : "Over by") : secs >= 0 ? "Start in" : "Should have started";
   const abs = Math.abs(secs);
-  const clock = `${Math.floor(abs / 60)}:${String(abs % 60).padStart(2, "0")}`;
+  const h = Math.floor(abs / 3600);
+  const m = Math.floor((abs % 3600) / 60);
+  const ss = String(abs % 60).padStart(2, "0");
+  const clock = h ? `${h}:${String(m).padStart(2, "0")}:${ss}` : `${m}:${ss}`;
   return (
     <div className="mt-3 rounded-xl border p-4">
       <p className="text-xs uppercase text-muted-foreground">{step.dishName}</p>

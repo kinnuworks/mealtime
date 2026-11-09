@@ -14,7 +14,7 @@ export function meta() {
 export default function HostKitchen() {
   const { key = "", step } = useParams();
   const navigate = useNavigate();
-  const { kitchen, error, loading } = useKitchen(key);
+  const { kitchen, clockOffset, error, loading } = useKitchen(key);
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     const id = setInterval(() => setNow(Date.now()), 15_000);
@@ -51,7 +51,7 @@ export default function HostKitchen() {
           cooks={kitchen.kitchenSetup.cooks}
           serveAt={kitchen.plan.serveAt}
           projectedServeAt={kitchen.plan.projectedServeAt}
-          now={now}
+          now={now + clockOffset}
           selectedId={selected?.id}
           onSelect={select}
         />
@@ -94,6 +94,17 @@ function Header({ kitchen, hostKey }: { kitchen: KitchenView; hostKey: string })
           <span className="rounded bg-emerald-100 px-2 py-1 text-emerald-800">On time</span>
         )}
         {toConfirm ? <span className="rounded bg-amber-100 px-2 py-1 text-amber-900">{toConfirm} estimated times to check</span> : null}
+        <button type="button" className="rounded border px-2 py-1" onClick={() => act("demo-clock", { kitchen: hostKey, mode: "start-now" })}>
+          Start cooking now
+        </button>
+        <button type="button" className="rounded border px-2 py-1" onClick={() => act("demo-clock", { kitchen: hostKey, mode: "skip", minutes: 15 })}>
+          Skip ahead 15 min
+        </button>
+        {kitchen.clockOffsetMin ? (
+          <button type="button" className="rounded bg-sky-100 px-2 py-1 text-sky-900" onClick={() => act("demo-clock", { kitchen: hostKey, mode: "reset" })}>
+            Demo clock +{kitchen.clockOffsetMin} min (reset)
+          </button>
+        ) : null}
         {p.conflicts.length ? <span className="rounded bg-red-100 px-2 py-1 text-red-800">{p.conflicts.length} clashes</span> : null}
         <a className="rounded border px-2 py-1" href={`/k/${hostKey}`} onClick={(e) => { e.preventDefault(); navigator.clipboard?.writeText(location.href); }}>
           Copy host link

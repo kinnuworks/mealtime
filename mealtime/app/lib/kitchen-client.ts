@@ -10,6 +10,7 @@ export interface KitchenView {
   role: "host" | "cook";
   version: number;
   now: number;
+  clockOffsetMin: number;
   cookKey?: string;
   title: string;
   units: "F" | "C";
@@ -42,16 +43,28 @@ export function useKitchen(key: string) {
       }
     };
     const id = setInterval(tick, 2500);
+    const now = () => void q.refetch();
+    window.addEventListener(CHANGED, now);
     return () => {
       stop = true;
       clearInterval(id);
+      window.removeEventListener(CHANGED, now);
     };
   }, [key, qc, q]);
-  return { kitchen: data, error: q.error as Error | null, loading: q.isLoading, refetch: q.refetch };
+  // Server clock (including the demo clock) minus this browser's clock.
+  const clockOffset = data ? data.now - (q.dataUpdatedAt || Date.now()) : 0;
+  return { kitchen: data, clockOffset, error: q.error as Error | null, loading: q.isLoading, refetch: q.refetch };
 }
 
+const CHANGED = "mealtime:changed";
+
+/** Run an action, then refresh this page at once instead of waiting for the poll. */
 export async function act(name: string, params: Record<string, unknown>) {
-  return callAction(name as never, params as never);
+  try {
+    return await callAction(name as never, params as never);
+  } finally {
+    window.dispatchEvent(new Event(CHANGED));
+  }
 }
 
 export function fmtTime(ms: number) {

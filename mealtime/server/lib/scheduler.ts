@@ -65,9 +65,11 @@ function placeAll(steps: SchedStep[], k: SchedKitchen, serveAt: number) {
     let cook: string | undefined;
     let oven: number | undefined;
     if (s.handsOn && k.cooks.length) {
-      const pref = s.cook
-        ? [s.cook, ...k.cooks.filter((c) => c !== s.cook)]
-        : k.cooks;
+      // Preferred cook first, then whoever has the least hands-on work so far.
+      const load = (c: string) =>
+        [...placed.values()].filter((p) => p.cook === c).reduce((a, p) => a + (p.end - p.start), 0);
+      const others = k.cooks.filter((c) => c !== s.cook).sort((a, b) => load(a) - load(b));
+      const pref = s.cook && k.cooks.includes(s.cook) ? [s.cook, ...others] : others;
       cook = pref.find((c) => !busy.some((p) => p.cook === c));
       if (!cook) return null;
     }

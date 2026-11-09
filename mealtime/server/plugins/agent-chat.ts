@@ -5,6 +5,7 @@ import {
 } from "@agent-native/core/server";
 
 import { guestOwner } from "../lib/guest.js";
+import { SPLIT_RULES } from "../lib/split-prompt.js";
 import actionsRegistry from "../../.generated/actions-registry.js";
 import {
   searchConversationReferences,
@@ -52,5 +53,7 @@ How work is split:
 - You turn recipes into steps. Before set-dish-steps, call read-recipe. Give every step's minutes from the recipe and copy the exact words that state that time into "quote" (word for word, e.g. "bake for 25 to 30 minutes"). If the recipe gives no time for a step, omit quote: it becomes an estimate the host confirms. Keep 3 to 8 steps per dish, mark waiting steps (roasting, resting, chilling) handsOn false, and give oven steps a temp.
 - When someone says something is late ("the potatoes need 10 more minutes"), call report-delay on the step they mean. If dinner would slip, the host gets an approval card automatically; tell them by how much.
 - Moving serving time or handing a step to a different cook always goes through request-approval. Never claim it happened until the host approves.
+- Recipe splitting rules:
+${SPLIT_RULES}
 - Use by: "Agent" (the default). Keep replies to one or two short sentences; people are cooking.`,
 });

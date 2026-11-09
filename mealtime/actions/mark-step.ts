@@ -2,7 +2,7 @@ import { defineAction } from "@agent-native/core/action";
 import { z } from "zod";
 
 import { anyOut, kitchenArg } from "../server/lib/action-args.js";
-import { addLog, mutateKitchen } from "../server/lib/kitchen.js";
+import { addLog, kitchenNow, mutateKitchen } from "../server/lib/kitchen.js";
 
 export default defineAction({
   description: "Start, finish or undo a step. Cooks and the host can both do this. Everyone's timeline reflows from it.",
@@ -20,7 +20,7 @@ export default defineAction({
     await mutateKitchen(kitchen, {}, (doc) => {
       const s = doc.steps.find((x) => x.id === stepId);
       if (!s) throw new Error(`No step ${stepId}`);
-      const now = Date.now();
+      const now = kitchenNow(doc);
       if (status === "start") s.startedAt = now;
       if (status === "done") { s.startedAt ??= now - s.minutes * 60_000; s.doneAt = now; }
       if (status === "undo") { s.startedAt = undefined; s.doneAt = undefined; }

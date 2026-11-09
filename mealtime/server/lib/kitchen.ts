@@ -67,7 +67,11 @@ export interface KitchenDoc {
   steps: KStep[];
   approvals: Approval[];
   log: LogEntry[];
+  /** Demo clock: minutes skipped ahead so a judge can watch the plan move. */
+  clockOffsetMs?: number;
 }
+
+export const kitchenNow = (doc: KitchenDoc) => Date.now() + (doc.clockOffsetMs ?? 0);
 
 export type Role = "host" | "cook";
 
@@ -126,7 +130,7 @@ export async function mutateKitchen(
 }
 
 export function addLog(doc: KitchenDoc, by: string, via: LogEntry["via"], text: string) {
-  doc.log.push({ at: Date.now(), by, via, text });
+  doc.log.push({ at: kitchenNow(doc), by, via, text });
 }
 
 /** True when the quote is really in the recipe and mentions the minutes used. */
@@ -169,7 +173,7 @@ export interface Plan {
   timeCheck: { dishId: string; dishName: string; planned: number; stated?: number; ok: boolean | null }[];
 }
 
-export function computePlan(doc: KitchenDoc, nowMs = Date.now()): Plan {
+export function computePlan(doc: KitchenDoc, nowMs = kitchenNow(doc)): Plan {
   const rel = (t: number) => (t - doc.serveAt) / MIN;
   const steps: SchedStep[] = doc.steps.map((s) => {
     const base: SchedStep = { id: s.id, minutes: Math.max(1, Math.round(s.minutes)), need: s.need, temp: s.temp, handsOn: s.handsOn, after: s.after, cook: s.cook };

@@ -2,7 +2,7 @@ import { defineAction } from "@agent-native/core/action";
 import { z } from "zod";
 
 import { anyOut, kitchenArg } from "../server/lib/action-args.js";
-import { addLog, computePlan, mutateKitchen, newId } from "../server/lib/kitchen.js";
+import { addLog, kitchenNow, computePlan, mutateKitchen, newId } from "../server/lib/kitchen.js";
 
 export default defineAction({
   description:
@@ -23,14 +23,14 @@ export default defineAction({
       const s = doc.steps.find((x) => x.id === stepId);
       if (!s) throw new Error(`No step ${stepId}`);
       s.minutes += extraMinutes;
-      if (!s.startedAt && !s.doneAt) s.startedAt = Date.now();
+      if (!s.startedAt && !s.doneAt) s.startedAt = kitchenNow(doc);
       addLog(doc, by, via, `${s.label} needs ${extraMinutes} more min`);
       const plan = computePlan(doc);
       slip = plan.slipMinutes;
       if (slip > 0 && !doc.approvals.some((a) => a.status === "pending" && a.change.kind === "serve-time")) {
         doc.approvals.push({
           id: newId(5), status: "pending", requestedBy: by, createdAt: Date.now(),
-          summary: `Dinner would be ${slip} min late. Move serving time to ${new Date(plan.projectedServeAt).toISOString()}?`,
+          summary: `Dinner would be ${slip} min late. Move serving time?`,
           change: { kind: "serve-time", serveAt: plan.projectedServeAt },
         });
       }

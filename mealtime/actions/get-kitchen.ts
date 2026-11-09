@@ -2,7 +2,7 @@ import { defineAction } from "@agent-native/core/action";
 import { z } from "zod";
 
 import { anyOut, kitchenArg } from "../server/lib/action-args.js";
-import { computePlan, loadKitchen } from "../server/lib/kitchen.js";
+import { computePlan, kitchenNow, loadKitchen } from "../server/lib/kitchen.js";
 
 export default defineAction({
   description:
@@ -18,7 +18,8 @@ export default defineAction({
     return {
       role,
       version: row.version,
-      now: Date.now(),
+      now: kitchenNow(row.doc),
+      clockOffsetMin: Math.round((row.doc.clockOffsetMs ?? 0) / 60_000),
       cookKey: role === "host" ? row.cookKey : undefined,
       title: row.doc.title,
       units: row.doc.units,
