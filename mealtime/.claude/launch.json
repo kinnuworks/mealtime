@@ -1,0 +1,18 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "mealtime",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "exec",
+        "agent-native",
+        "dev",
+        "--port",
+        "8091",
+        "--strictPort"
+      ],
+      "port": 8091
+    }
+  ]
+}

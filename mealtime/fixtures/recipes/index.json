@@ -1,0 +1,11 @@
+{
+  "demo": ["roast-turkey-recipetineats", "mashed-potatoes-inspiredtaste", "stuffing-loveandlemons", "pumpkin-pie-kingarthur"],
+  "test": [
+    "beef-stroganoff-recipetineats", "roast-chicken-recipetineats", "chop-suey-recipetineats", "chicken-fried-rice-recipetineats", "roast-potatoes-recipetineats",
+    "sandwich-bread-kingarthur", "fudge-brownies-kingarthur", "banana-bread-kingarthur", "cinnamon-rolls-kingarthur",
+    "chocolate-cake-bbcgoodfood", "spaghetti-bolognese-bbcgoodfood", "chilli-con-carne-bbcgoodfood", "lasagne-bbcgoodfood",
+    "green-bean-casserole-loveandlemons", "lentil-soup-loveandlemons", "roasted-vegetables-loveandlemons",
+    "chocolate-chip-cookies-pinchofyum", "ramen-pinchofyum",
+    "chicken-pot-pie-casserole-averiecooks", "banana-bread-bars-averiecooks"
+  ]
+}
