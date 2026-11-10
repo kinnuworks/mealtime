@@ -2,7 +2,7 @@
 
 Mealtime plans a big meal backwards from dinner time, so every dish comes out together, and sends each cook their next step on their phone.
 
-It's built on Agent-Native because the agent and the screens edit the same plan through the same actions. Tell the agent "the potatoes need 10 more minutes" and the timeline, both phones and the activity log update together. The host taps to approve before dinner time moves.
+It's built on Agent-Native, Builder.io's framework where an AI agent and the app's screens use the same actions and data. That matters here because every change (a cook pressing Start, the host editing a time, the agent handling "the turkey's late") goes through one action, so nothing needs a separate agent integration and nothing drifts out of sync. Tell the agent "the potatoes need 10 more minutes" and the timeline, both phones and the activity log update together. The host taps to approve before dinner time moves.
 
 **Live app: https://mealtime-kitchen.vercel.app**. Every visitor gets their own demo kitchen with no sign-up. Talking to the agent asks you to sign in, because the framework only lets signed-in people use the site's AI key.
 

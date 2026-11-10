@@ -96,7 +96,7 @@ function Header({ kitchen, hostKey, signedIn }: { kitchen: KitchenView; hostKey:
         ) : (
           <span className="mt-pill mt-pill--good">On time</span>
         )}
-        {toConfirm ? <span className="mt-pill mt-pill--est">{toConfirm} times to check</span> : null}
+        {toConfirm ? <span className="mt-pill mt-pill--est">{toConfirm} estimated times to check</span> : null}
         {p.conflicts.length ? <span className="mt-pill mt-pill--late">{p.conflicts.length} {p.conflicts.length === 1 ? "clash" : "clashes"}</span> : null}
         {kitchen.clockOffsetMin ? (
           <button type="button" className="mt-pill mt-pill--clock" style={{ border: 0, cursor: "pointer" }} onClick={() => act("demo-clock", { kitchen: hostKey, mode: "reset" })}>
@@ -107,7 +107,7 @@ function Header({ kitchen, hostKey, signedIn }: { kitchen: KitchenView; hostKey:
           Start cooking now
         </button>
         <button type="button" className="mt-btn" onClick={() => act("demo-clock", { kitchen: hostKey, mode: "skip", minutes: 15 })}>
-          Skip 15 min
+          Demo: skip 15 min
         </button>
         <a className="mt-btn mt-btn--ghost" href={`/k/${hostKey}`} onClick={(e) => { e.preventDefault(); navigator.clipboard?.writeText(location.href); }}>
           Copy host link
@@ -264,8 +264,8 @@ function Dishes({ kitchen, hostKey, signedIn }: { kitchen: KitchenView; hostKey:
                   ? "Waiting for the agent to split it into steps…"
                   : c?.stated
                     ? c.ok
-                      ? `${fmtDur(c.active)} of cooking, ${fmtDur(c.stated)} in the recipe ✓`
-                      : `${fmtDur(c.active)} of cooking, but the recipe says ${fmtDur(c.stated)}: check it`
+                      ? `Close to the recipe's ${fmtDur(c.stated)} (${fmtDur(c.active)} of cooking) ✓`
+                      : `${fmtDur(c.active)} of cooking, but the recipe says ${fmtDur(c.stated)}: check the times`
                     : `Steps add up to ${fmtDur(c?.planned ?? 0)}; recipe gives no total`}
               </span>
             </li>
