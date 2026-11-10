@@ -95,11 +95,16 @@ export function Timeline({ steps, cooks, serveAt, projectedServeAt, now, selecte
                     s.state === "running" ? "mt-bar--running" : "",
                     s.timeSource === "estimate" && !s.confirmed ? "mt-bar--est" : "",
                     selectedId === s.id ? "mt-bar--sel" : "",
+                    s.minutes < 15 ? "mt-bar--chip" : "",
                   ].join(" ")}
                   style={{ ...dishColor(dishIds, s.dishId), left: pct(s.start), width: `max(8px, calc(${pct(s.end)} - ${pct(s.start)} - 3px))` }}
                 >
-                  <b>{s.label}</b>
-                  <small>{s.dishName}</small>
+                  {s.minutes < 15 ? null : (
+                    <>
+                      <b>{s.label}</b>
+                      <small>{s.dishName}</small>
+                    </>
+                  )}
                 </button>
               ))}
             </div>

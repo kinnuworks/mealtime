@@ -491,3 +491,5 @@ html:has(.mt-app) body {
 .mt-mark span { animation: none; }
 .mt-now span { animation: mt-pulse 2.4s ease-in-out infinite; }
 @media (max-width: 640px) { .mt-stats span + span::before { display: none; } .mt-stage { padding: 8px; border-radius: 22px; } }
+
+.mt-bar--chip { padding: 0; background: var(--bar-wash); }
