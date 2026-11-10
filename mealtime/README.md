@@ -22,7 +22,7 @@ It's built on Agent-Native because the agent and the screens edit the same plan 
 
 ## How well the recipe splitting works
 
-I ran the same splitting rules on 20 recipes from 8 recipe sites (`scripts/split-recipes.ts --test`, results in `fixtures/recipe-check.json`):
+I ran the same splitting rules on 20 recipes from 6 recipe sites (`scripts/split-recipes.ts --test`, results in `fixtures/recipe-check.json`):
 
 - 136 steps in total. For 77 of them the model quoted a time from the recipe; code found 73 of those quotes in the recipe text and turned the other 4 into estimates.
 - The other 59 steps have no time in the recipe, so they show up as estimates for the host to check.
