@@ -15,6 +15,14 @@ export default runMigrations(
         updated_at TEXT NOT NULL
       )`,
     },
+    {
+      version: 2,
+      name: "mt-usage",
+      sql: `CREATE TABLE IF NOT EXISTS mt_usage (
+        id TEXT PRIMARY KEY,
+        count INTEGER NOT NULL DEFAULT 0
+      )`,
+    },
   ],
   { table: "mt_migrations" },
 );

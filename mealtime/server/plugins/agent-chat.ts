@@ -26,6 +26,7 @@ const INITIAL_TOOL_NAMES = [
 
 export default createAgentChatPlugin({
   appId: "mealtime",
+  model: "claude-sonnet-5-5",
   mentionProviders: {
     chats: {
       label: "composerSources.group",

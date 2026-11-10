@@ -11,3 +11,9 @@ export const kitchens = pgTable("mt_kitchens", {
   createdAt: text("created_at").notNull(),
   updatedAt: text("updated_at").notNull(),
 });
+
+// Agent messages per visitor per day, so a public demo can't run up the bill.
+export const usage = pgTable("mt_usage", {
+  id: text("id").primaryKey(), // "<owner>|<yyyy-mm-dd>"
+  count: integer("count").notNull().default(0),
+});

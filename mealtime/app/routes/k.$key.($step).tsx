@@ -1,5 +1,5 @@
 import { sendToAgentChat } from "@agent-native/core/client/agent-chat";
-import { AgentSidebar } from "@agent-native/toolkit/app/chat";
+import { AgentSidebar, AgentToggleButton } from "@agent-native/toolkit/app/chat";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
@@ -35,7 +35,8 @@ export default function HostKitchen() {
       position="right"
       storageKey={`kitchen-${key.slice(0, 8)}`}
       browserTabId={TAB_ID}
-      defaultOpen
+      showModelSelector={false}
+      defaultOpen={typeof window === "undefined" || window.innerWidth >= 1024}
       emptyStateText="Tell me what's happening in the kitchen. Try: “the potatoes need 10 more minutes”."
       suggestions={[
         "The turkey needs 15 more minutes",
@@ -109,6 +110,7 @@ function Header({ kitchen, hostKey }: { kitchen: KitchenView; hostKey: string })
         <a className="rounded border px-2 py-1" href={`/k/${hostKey}`} onClick={(e) => { e.preventDefault(); navigator.clipboard?.writeText(location.href); }}>
           Copy host link
         </a>
+        <AgentToggleButton className="h-auto w-auto rounded border px-2 py-1 text-xs text-foreground" icon={<span>Ask the agent</span>} />
       </div>
     </header>
   );
