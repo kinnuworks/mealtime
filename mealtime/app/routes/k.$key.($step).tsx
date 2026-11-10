@@ -49,6 +49,7 @@ export default function HostKitchen() {
       <main className="mt-app mt-page">
         <Header kitchen={kitchen} hostKey={key} signedIn={signedIn} />
         <Approvals kitchen={kitchen} hostKey={key} />
+        <div className="mt-stage">
         <Timeline
           steps={kitchen.plan.steps}
           cooks={kitchen.kitchenSetup.cooks}
@@ -58,6 +59,7 @@ export default function HostKitchen() {
           selectedId={selected?.id}
           onSelect={select}
         />
+        </div>
         {!signedIn ? <AgentPreview kitchen={kitchen} hostKey={key} /> : null}
         <div className="mt-grid">
           <div className="mt-col">
@@ -85,11 +87,17 @@ function Header({ kitchen, hostKey, signedIn }: { kitchen: KitchenView; hostKey:
       <div>
         <span className="mt-eyebrow"><span className="dot" />Mealtime · {kitchen.title}</span>
         <h1 className="mt-h1">
-          Dinner at <span style={{ fontVariantNumeric: "tabular-nums" }}>{fmtTime(p.projectedServeAt)}</span>.
+          Dinner at <span style={{ fontVariantNumeric: "tabular-nums" }}>{fmtTime(p.projectedServeAt)}</span>.{" "}
+          <span className="mt-h1-muted">Every dish on time.</span>
         </h1>
         <p className="mt-sub">
           {p.steps.some((x) => x.startedAt || x.doneAt) ? <>Cooking now</> : <>Start cooking at <strong className="mt-mono">{fmtTime(p.firstStart)}</strong></>} · {kitchen.dishes.length} dishes · {kitchen.kitchenSetup.cooks.length} cooks · {kitchen.kitchenSetup.ovens} oven
         </p>
+        <div className="mt-stats">
+          <span><b className="mt-mono">{p.steps.length}</b> steps planned backwards</span>
+          <span><b className="mt-mono">{p.steps.filter((x) => x.timeSource === "quoted").length}</b> times quoted from the recipe</span>
+          <span><b className="mt-mono">{kitchen.dishes.length}</b> real recipes</span>
+        </div>
       </div>
       <div className="mt-toolbar">
         {late ? (
@@ -117,7 +125,7 @@ function Header({ kitchen, hostKey, signedIn }: { kitchen: KitchenView; hostKey:
           <AgentToggleButton className="mt-btn mt-btn--ink h-auto w-auto" icon={<span>Ask the agent</span>} />
         ) : (
           <button type="button" className="mt-btn mt-btn--ink" onClick={signInForAgent}>
-            Sign in to talk to the agent
+            Try the agent free
           </button>
         )}
       </div>

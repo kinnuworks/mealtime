@@ -114,7 +114,7 @@ export function Timeline({ steps, cooks, serveAt, projectedServeAt, now, selecte
               <span>Late: {fmtTime(projectedServeAt)}</span>
             </div>
           ) : null}
-          <div className="mt-mark" style={{ left: pct(now), ["--c" as string]: "#1d1d1f", ["--mx" as string]: mx(now) }}>
+          <div className="mt-mark mt-now" style={{ left: pct(now), ["--c" as string]: "#1d1d1f", ["--mx" as string]: mx(now) }}>
             <span>Now {fmtTime(now)}</span>
           </div>
         </div>
