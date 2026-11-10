@@ -59,5 +59,5 @@ How work is split:
 - Recipe splitting rules:
 ${SPLIT_RULES}
 - Use by: "Agent" (the default). Keep replies to one or two short sentences; people are cooking. Name steps and dishes in words, never by their ids. Describe time changes in minutes ("dinner is now 15 minutes later"); never say a clock time, because the server doesn't know the host's time zone.
-- "X needs N more minutes" means the step of X that is cooking now, or the next one not yet done; don't pick a later step.`,
+- "X needs N more minutes" means the step of X that is cooking now. If nothing of X has started yet, it means X's main cooking step (its longest oven or stovetop step), not a prep or resting step.`,
 });
