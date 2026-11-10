@@ -28,6 +28,10 @@ export function useKitchen(key: string) {
   const data = q.data as unknown as KitchenView | undefined;
   const seen = useRef<number | undefined>(undefined);
   seen.current = data?.version;
+  // The query object changes on every render; keep the latest in a ref so the
+  // poll below isn't torn down and restarted each second on the cook phone.
+  const qRef = useRef(q);
+  qRef.current = q;
   useEffect(() => {
     let stop = false;
     const tick = async () => {
@@ -40,21 +44,21 @@ export function useKitchen(key: string) {
         const r = { version: body.result?.version ?? body.version };
         if (seen.current !== undefined && r.version !== seen.current) {
           await qc.invalidateQueries({ queryKey: ["action", "get-kitchen"] });
-          await q.refetch();
+          await qRef.current.refetch();
         }
       } catch {
         /* offline for a moment; try again next tick */
       }
     };
     const id = setInterval(tick, 2500);
-    const now = () => void q.refetch();
+    const now = () => void qRef.current.refetch();
     window.addEventListener(CHANGED, now);
     return () => {
       stop = true;
       clearInterval(id);
       window.removeEventListener(CHANGED, now);
     };
-  }, [key, qc, q]);
+  }, [key, qc]);
   // Server clock (including the demo clock) minus this browser's clock.
   const clockOffset = data ? data.now - (q.dataUpdatedAt || Date.now()) : 0;
   return { kitchen: data, clockOffset, error: q.error as Error | null, loading: q.isLoading, refetch: q.refetch };
