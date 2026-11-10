@@ -49,6 +49,7 @@ export default function HostKitchen() {
       <main className="mt-app mt-page">
         <Header kitchen={kitchen} hostKey={key} signedIn={signedIn} />
         <Approvals kitchen={kitchen} hostKey={key} />
+        <RightNow kitchen={kitchen} hostKey={key} now={now + clockOffset} />
         <div className="mt-stage">
         <Timeline
           steps={kitchen.plan.steps}
@@ -154,6 +155,63 @@ function Approvals({ kitchen, hostKey }: { kitchen: KitchenView; hostKey: string
           </span>
         </div>
       ))}
+    </section>
+  );
+}
+
+/** What each cook and the oven should be on at this minute, with the one button that fits. */
+function RightNow({ kitchen, hostKey, now }: { kitchen: KitchenView; hostKey: string; now: number }) {
+  const [busy, setBusy] = useState<string | null>(null);
+  const open = kitchen.plan.steps.filter((s) => s.state !== "done").sort((x, y) => x.start - y.start);
+  const rows = [
+    ...kitchen.kitchenSetup.cooks.map((c) => ({ who: c, step: open.find((s) => s.handsOn && s.assignedCook === c) })),
+    { who: "Oven", step: open.find((s) => s.need === "oven" && !s.handsOn) },
+  ].filter((r): r is { who: string; step: PlanStep } => Boolean(r.step));
+  if (!rows.length) return null;
+  const run = async (id: string, name: string, p: Record<string, unknown>) => {
+    setBusy(id);
+    try {
+      await act(name, { kitchen: hostKey, by: "Host", via: "timeline", stepId: id, ...p });
+    } finally {
+      setBusy(null);
+    }
+  };
+  const mins = (ms: number) => Math.max(1, Math.round(Math.abs(ms) / 60_000));
+  return (
+    <section className="mt-rightnow" aria-label="Right now">
+      <p className="mt-eyebrow"><span className="dot" />Right now · {fmtTime(now)}</p>
+      <div className="mt-rightnow__rows">
+        {rows.map(({ who, step: s }) => {
+          const running = s.state === "running";
+          const overdue = running ? now > s.end : now > s.start;
+          const when = running
+            ? overdue
+              ? `was due at ${fmtTime(s.end)}, ${fmtDur(mins(now - s.end))} ago`
+              : `until ${fmtTime(s.end)}, ${fmtDur(mins(s.end - now))} left`
+            : overdue
+              ? `should have started at ${fmtTime(s.start)}, ${fmtDur(mins(now - s.start))} ago`
+              : `starts at ${fmtTime(s.start)}, in ${fmtDur(mins(s.start - now))}`;
+          return (
+            <div key={`${who}-${s.id}`} className={`mt-rightnow__row ${overdue ? "is-late" : ""}`}>
+              <span className="who">{who}</span>
+              <span className="what">
+                <b>{s.label}</b>
+                <small>{s.dishName} · {when}</small>
+              </span>
+              <span className="acts">
+                <button type="button" disabled={busy === s.id} className="mt-btn mt-btn--ink" onClick={() => run(s.id, "mark-step", { status: running ? "done" : "start" })}>
+                  {running ? "Done" : "Start"}
+                </button>
+                {running ? (
+                  <button type="button" disabled={busy === s.id} className="mt-btn" onClick={() => run(s.id, "report-delay", { extraMinutes: 10 })}>
+                    10 more min
+                  </button>
+                ) : null}
+              </span>
+            </div>
+          );
+        })}
+      </div>
     </section>
   );
 }

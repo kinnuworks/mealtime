@@ -10,3 +10,4 @@ gitignore-add.txt
 video/
 
 .playwright-mcp/
+mealtime-video-*.mp4
