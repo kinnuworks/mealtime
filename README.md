@@ -24,6 +24,16 @@ It's built on Agent-Native, Builder.io's framework where an AI agent and the app
 - Moving dinner (`move-dinner`) or handing a step to another cook (`reassign-step`) uses the framework's `needsApproval`: a click by a person in the app runs at once, but when the agent, an MCP client or another agent calls it, the framework stops and asks the host to approve that exact call. A cook who reports a delay from their phone leaves a one-tap card on the host's timeline instead.
 - The timeline buttons, the cook phones and the agent all call the same actions in `mealtime/actions/`. The activity log records who made each change and where it came from (timeline, phone or agent). The same actions are also offered over the app's MCP endpoint, which asks for sign-in.
 
+## Use it from your AI assistant (MCP)
+
+The same actions are an MCP server, so Claude Code, Cursor or any MCP client can run the kitchen:
+
+```bash
+npx @agent-native/core@latest connect https://mealtime-kitchen.vercel.app
+```
+
+Sign in when your client asks, then give it a kitchen link and say "the potatoes need 10 more minutes". I checked this against a local copy: the client sees all 12 kitchen tools, reads the plan with `get-kitchen`, and when it tries `move-dinner` the framework refuses until a person approves.
+
 ## How well the recipe splitting works
 
 I ran the same splitting rules on 20 recipes from 6 recipe sites (`mealtime/scripts/split-recipes.ts --test`, results in `mealtime/fixtures/recipe-check.json`):
