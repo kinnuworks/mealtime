@@ -8,7 +8,7 @@ It's built on Agent-Native, Builder.io's framework where an AI agent and the app
 
 *A real run, recorded from the app: the agent calls `get-kitchen` and `report-delay`, the timeline reflows, and dinner only moves after Approve.*
 
-**Live app: https://mealtime-kitchen.vercel.app**. Every visitor gets their own demo kitchen with no sign-up. Talking to the agent asks you to sign up (any email, no verification, about 15 seconds), because the framework only lets signed-in people use the site's AI key. Until then, the kitchen page plays a recorded run of the agent.
+**Live app: https://mealtime-kitchen.vercel.app**. Every visitor gets their own demo kitchen with no sign-up. Talking to the agent asks you to sign up (any email, no verification, about 15 seconds), because the framework only lets signed-in people use the site's AI key. Until then, the kitchen page plays a recorded run of the agent and has a button that runs the agent's own `report-delay` action on your kitchen, so you can see the reflow and the approval card without an account.
 
 ## Try it in 30 seconds
 

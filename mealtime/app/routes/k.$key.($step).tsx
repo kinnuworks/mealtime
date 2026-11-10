@@ -58,7 +58,7 @@ export default function HostKitchen() {
           selectedId={selected?.id}
           onSelect={select}
         />
-        {!signedIn ? <AgentPreview /> : null}
+        {!signedIn ? <AgentPreview kitchen={kitchen} hostKey={key} /> : null}
         <div className="mt-grid">
           <div className="mt-col">
             {selected ? <StepPanel signedIn={signedIn} step={selected} hostKey={key} units={kitchen.units} cooks={kitchen.kitchenSetup.cooks} /> : <Hint />}
@@ -344,7 +344,24 @@ function CookPreview({ cookKey }: { cookKey: string }) {
 }
 
 /** Signed-out visitors can't use the site's AI key, so show a real recorded run and a fast way in. */
-function AgentPreview() {
+function AgentPreview({ kitchen, hostKey }: { kitchen: KitchenView; hostKey: string }) {
+  const [busy, setBusy] = useState(false);
+  const [done, setDone] = useState<string | null>(null);
+  // The turkey's main cooking step: the longest oven step of the first dish.
+  const turkeyId = kitchen.dishes[0]?.id;
+  const main = kitchen.plan.steps
+    .filter((x) => x.dishId === turkeyId && x.state !== "done" && (x.need === "oven" || x.need === "burner"))
+    .sort((a, b) => b.minutes - a.minutes)[0];
+  const tryIt = async () => {
+    if (!main) return;
+    setBusy(true);
+    try {
+      const r = (await act("report-delay", { kitchen: hostKey, stepId: main.id, extraMinutes: 20, by: "You", via: "timeline" })) as unknown as { dinnerSlipsBy?: number };
+      setDone(r?.dinnerSlipsBy ? `Added 20 min to "${main.label}". Dinner would be ${r.dinnerSlipsBy} min late, so there's an approval card at the top.` : `Added 20 min to "${main.label}". There was enough slack, so dinner stays put.`);
+    } finally {
+      setBusy(false);
+    }
+  };
   return (
     <section className="mt-card mt-agentpreview">
       <img src="/agent-loop.gif" alt="A real run: the host tells the agent the turkey needs 20 more minutes; the agent adds the time to the right step, an approval card appears, and dinner moves only after Approve" />
@@ -359,6 +376,15 @@ function AgentPreview() {
             Sign up to try the agent
           </button>
           <span className="text-sm" style={{ color: "var(--mt-ink-3)" }}>Any email, no verification, about 15 seconds.</span>
+        </div>
+        <div style={{ marginTop: 18, paddingTop: 14, borderTop: "1px solid var(--mt-line)" }}>
+          <p className="text-sm" style={{ color: "var(--mt-ink-3)", marginBottom: 8 }}>
+            Or try the agent's own action now, no account needed. This button calls <span className="mt-mono">report-delay</span>, the same action the agent calls when you tell it the turkey is late:
+          </p>
+          <button type="button" className="mt-btn" disabled={busy || !main} onClick={tryIt}>
+            {busy ? "Working…" : "“The turkey needs 20 more minutes”"}
+          </button>
+          {done ? <p className="text-sm" style={{ marginTop: 8, color: "var(--mt-good)" }}>{done}</p> : null}
         </div>
       </div>
     </section>
