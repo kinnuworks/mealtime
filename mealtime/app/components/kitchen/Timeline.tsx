@@ -51,7 +51,10 @@ export function Timeline({ steps, cooks, serveAt, projectedServeAt, now, selecte
   const start = Math.min(...steps.map((s) => s.start), now) - 5 * MIN;
   const end = Math.max(projectedServeAt, ...steps.map((s) => s.end)) + 15 * MIN;
   const span = end - start;
-  const pct = (t: number) => `${((t - start) / span) * 100}%`;
+  const frac = (t: number) => (t - start) / span;
+  const pct = (t: number) => `${frac(t) * 100}%`;
+  // Marker labels near the right edge hang to the left so they never get cut off.
+  const mx = (t: number) => (frac(t) > 0.9 ? "-100%" : frac(t) < 0.06 ? "0%" : "-50%");
   const dishIds = [...new Set(steps.map((s) => s.dishId))];
 
   const lanes: { name: string; isCook: boolean; items: PlanStep[] }[] = [
@@ -103,15 +106,15 @@ export function Timeline({ steps, cooks, serveAt, projectedServeAt, now, selecte
           </div>
         ))}
         <div className="pointer-events-none absolute inset-y-0 right-0" style={{ left: 112 }}>
-          <div className="mt-mark" style={{ left: pct(serveAt), ["--c" as string]: "#2f7a4a" }}>
+          <div className="mt-mark" style={{ left: pct(serveAt), ["--c" as string]: "#2f7a4a", ["--mx" as string]: mx(serveAt) }}>
             <span>Dinner {fmtTime(serveAt)}</span>
           </div>
           {late ? (
-            <div className="mt-mark mt-mark--dash" style={{ left: pct(projectedServeAt), ["--c" as string]: "#b3261e" }}>
+            <div className="mt-mark mt-mark--dash" style={{ left: pct(projectedServeAt), ["--c" as string]: "#b3261e", ["--mx" as string]: mx(projectedServeAt) }}>
               <span>Late: {fmtTime(projectedServeAt)}</span>
             </div>
           ) : null}
-          <div className="mt-mark" style={{ left: pct(now), ["--c" as string]: "#17150f" }}>
+          <div className="mt-mark" style={{ left: pct(now), ["--c" as string]: "#17150f", ["--mx" as string]: mx(now) }}>
             <span>Now {fmtTime(now)}</span>
           </div>
         </div>

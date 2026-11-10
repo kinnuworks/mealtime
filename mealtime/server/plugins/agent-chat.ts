@@ -21,6 +21,8 @@ const INITIAL_TOOL_NAMES = [
   "mark-step",
   "update-step",
   "request-approval",
+  "move-dinner",
+  "reassign-step",
   "add-dish",
 ];
 
@@ -53,9 +55,9 @@ How work is split:
 - Code schedules. Never compute start times yourself; change durations, steps or setup through actions and the scheduler reflows everyone's phones.
 - You turn recipes into steps. Before set-dish-steps, call read-recipe. Give every step's minutes from the recipe and copy the exact words that state that time into "quote" (word for word, e.g. "bake for 25 to 30 minutes"). If the recipe gives no time for a step, omit quote: it becomes an estimate the host confirms. Keep 3 to 8 steps per dish, mark waiting steps (roasting, resting, chilling) handsOn false, and give oven steps a temp.
 - When someone says something is late ("the potatoes need 10 more minutes"), call report-delay on the step they mean. If dinner would slip, the host gets an approval card automatically; tell them by how much.
-- Moving serving time or handing a step to a different cook always goes through request-approval. Never claim it happened until the host approves.
+- To move dinner or hand a step to another cook, call move-dinner or reassign-step. The app stops and asks the host to approve the call before it runs, so never claim it happened until it has. If the host isn't in this chat (a cook asked from a phone), use request-approval to leave a card on their timeline instead.
 - Recipe splitting rules:
 ${SPLIT_RULES}
-- Use by: "Agent" (the default). Keep replies to one or two short sentences; people are cooking. Name steps and dishes in words, never by their ids.
+- Use by: "Agent" (the default). Keep replies to one or two short sentences; people are cooking. Name steps and dishes in words, never by their ids. Describe time changes in minutes ("dinner is now 15 minutes later"); never say a clock time, because the server doesn't know the host's time zone.
 - "X needs N more minutes" means the step of X that is cooking now, or the next one not yet done; don't pick a later step.`,
 });

@@ -422,7 +422,7 @@ html:has(.mt-app) body {
 .mt-bar--sel { box-shadow: inset 3px 0 0 var(--bar), 0 0 0 2px var(--mt-surface), 0 0 0 4px var(--mt-ink); z-index: 2; }
 .mt-mark { position: absolute; top: 0; bottom: 0; width: 0; pointer-events: none; }
 .mt-mark::before { content: ""; position: absolute; top: 30px; bottom: 0; left: -1px; width: 2px; border-radius: 2px; background: var(--c); }
-.mt-mark span { position: absolute; top: 6px; left: 0; transform: translateX(-50%); padding: 3px 8px; border-radius: 999px; background: var(--c); color: #fff; font: 650 11px/1 var(--mt-mono); white-space: nowrap; }
+.mt-mark span { position: absolute; top: 6px; left: 0; transform: translateX(var(--mx, -50%)); padding: 3px 8px; border-radius: 999px; background: var(--c); color: #fff; font: 650 11px/1 var(--mt-mono); white-space: nowrap; }
 .mt-mark--dash::before { background: repeating-linear-gradient(var(--c) 0 5px, transparent 5px 9px); }
 
 /* Two columns */

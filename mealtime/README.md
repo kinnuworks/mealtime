@@ -4,6 +4,10 @@ Mealtime plans a big meal backwards from dinner time, so every dish comes out to
 
 It's built on Agent-Native, Builder.io's framework where an AI agent and the app's screens use the same actions and data. That matters here because every change (a cook pressing Start, the host editing a time, the agent handling "the turkey's late") goes through one action, so nothing needs a separate agent integration and nothing drifts out of sync. Tell the agent "the potatoes need 10 more minutes" and the timeline, both phones and the activity log update together. The host taps to approve before dinner time moves.
 
+![A real run: the host says the turkey needs 20 more minutes, the agent adds it to the right step, an approval card appears, and the plan settles after Approve](docs/agent-loop.gif)
+
+*A real run, recorded from the app: the agent calls `get-kitchen` and `report-delay`, the timeline reflows, and dinner only moves after Approve.*
+
 **Live app: https://mealtime-kitchen.vercel.app**. Every visitor gets their own demo kitchen with no sign-up. Talking to the agent asks you to sign in, because the framework only lets signed-in people use the site's AI key.
 
 ## Try it in 30 seconds
@@ -17,7 +21,7 @@ It's built on Agent-Native, Builder.io's framework where an AI agent and the app
 
 - The scheduler in `server/lib/scheduler.ts` is plain code, not the model. It works back from dinner time and places each step as late as it can go. It won't double-book an oven (two dishes share one only when their temperatures are close), a burner, or a cook's hands. Steps that are done, running or pinned stay where they are. If a step would have to start in the past, dinner slips and the header says by how much.
 - The agent splits a recipe into steps and copies the recipe's own words for each time, for example "bake for 25 to 30 minutes". `set-dish-steps` checks that sentence against the recipe text. A step whose time the recipe doesn't give is marked as an estimate (amber dashed border) until the host confirms it.
-- Moving dinner time or handing a step to another cook goes through `request-approval` and shows up as a one-tap card.
+- Moving dinner (`move-dinner`) or handing a step to another cook (`reassign-step`) uses the framework's `needsApproval`: a click by a person in the app runs at once, but when the agent, an MCP client or another agent calls it, the framework stops and asks the host to approve that exact call. A cook who reports a delay from their phone leaves a one-tap card on the host's timeline instead.
 - The timeline buttons, the cook phones and the agent all call the same actions in `actions/`. The activity log records who made each change and where it came from (timeline, phone or agent). The same actions are also offered over the app's MCP endpoint, which asks for sign-in.
 
 ## How well the recipe splitting works

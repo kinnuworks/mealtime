@@ -24,6 +24,8 @@ Mealtime is a shared kitchen timeline. A host pastes recipes and a serving time;
 | `mark-step` | host or cook | Start, finish or undo a step |
 | `report-delay` | host or cook | Add minutes to a late step; queues a serving-time card if dinner slips |
 | `request-approval` | anyone | One-tap card for the host (serving time, hand a step to a cook) |
+| `move-dinner` | host (agent calls need approval) | Move serving time; the framework asks the host to approve agent and MCP calls |
+| `reassign-step` | host (agent calls need approval) | Hand a hands-on step to another cook |
 | `update-kitchen` | host | Ovens, burners, oven sharing tolerance, cooks, units |
 
 ## Rules
