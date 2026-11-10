@@ -10,7 +10,9 @@ export function useSignedIn(): boolean {
 }
 
 export function signInForAgent() {
-  window.location.href = buildSignInReturnHref({ returnTo: window.location.pathname });
+  // Most judges and guests are new here, so open account creation, not "Welcome back".
+  const href = buildSignInReturnHref({ returnTo: window.location.pathname });
+  window.location.href = href + (href.includes("?") ? "&" : "?") + "tab=signup";
 }
 
 export function askAgent(signedIn: boolean, message: string) {
