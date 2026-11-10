@@ -19,7 +19,7 @@ const DISH_COLORS = ["#5E8F5B", "#C98F22", "#8A5784", "#4F76A3", "#9C6B4E", "#3F
 
 export function dishColor(dishIds: string[], dishId: string): CSSProperties {
   const c = DISH_COLORS[Math.max(0, dishIds.indexOf(dishId)) % DISH_COLORS.length];
-  return { ["--bar" as string]: c, ["--bar-wash" as string]: `color-mix(in oklab, ${c} 14%, #fffefc)` };
+  return { ["--bar" as string]: c, ["--bar-wash" as string]: `color-mix(in oklab, ${c} 14%, #ffffff)` };
 }
 
 const icon = {
@@ -66,7 +66,7 @@ export function Timeline({ steps, cooks, serveAt, projectedServeAt, now, selecte
 
   const ticks: number[] = [];
   const first = Math.ceil(start / (30 * MIN)) * 30 * MIN;
-  for (let t = first; t < end; t += 30 * MIN) ticks.push(t);
+  for (let t = first; t < end; t += 30 * MIN) if (Math.abs(frac(t) - frac(now)) > 0.07 && Math.abs(frac(t) - frac(serveAt)) > 0.08) ticks.push(t);
   const late = projectedServeAt !== serveAt;
 
   return (
@@ -114,7 +114,7 @@ export function Timeline({ steps, cooks, serveAt, projectedServeAt, now, selecte
               <span>Late: {fmtTime(projectedServeAt)}</span>
             </div>
           ) : null}
-          <div className="mt-mark" style={{ left: pct(now), ["--c" as string]: "#17150f", ["--mx" as string]: mx(now) }}>
+          <div className="mt-mark" style={{ left: pct(now), ["--c" as string]: "#1d1d1f", ["--mx" as string]: mx(now) }}>
             <span>Now {fmtTime(now)}</span>
           </div>
         </div>

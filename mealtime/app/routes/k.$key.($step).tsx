@@ -58,6 +58,7 @@ export default function HostKitchen() {
           selectedId={selected?.id}
           onSelect={select}
         />
+        {!signedIn ? <AgentPreview /> : null}
         <div className="mt-grid">
           <div className="mt-col">
             {selected ? <StepPanel signedIn={signedIn} step={selected} hostKey={key} units={kitchen.units} cooks={kitchen.kitchenSetup.cooks} /> : <Hint />}
@@ -314,7 +315,7 @@ function CookPreview({ cookKey }: { cookKey: string }) {
   const [qr, setQr] = useState("");
   useEffect(() => {
     import("qrcode")
-      .then((m) => ((m as unknown as { default?: typeof m }).default ?? m).toDataURL(url, { margin: 1, width: 240, color: { dark: "#17150f", light: "#fffefc" } }))
+      .then((m) => ((m as unknown as { default?: typeof m }).default ?? m).toDataURL(url, { margin: 1, width: 240, color: { dark: "#1d1d1f", light: "#ffffff" } }))
       .then(setQr)
       .catch(() => setQr(""));
   }, [url]);
@@ -339,5 +340,27 @@ function CookPreview({ cookKey }: { cookKey: string }) {
         <p className="mt-phone__label"><span className="live" />Sam's phone, live</p>
       </div>
     </aside>
+  );
+}
+
+/** Signed-out visitors can't use the site's AI key, so show a real recorded run and a fast way in. */
+function AgentPreview() {
+  return (
+    <section className="mt-card mt-agentpreview">
+      <img src="/agent-loop.gif" alt="A real run: the host tells the agent the turkey needs 20 more minutes; the agent adds the time to the right step, an approval card appears, and dinner moves only after Approve" />
+      <div>
+        <span className="mt-eyebrow"><span className="dot" />The kitchen agent · a real run from this app</span>
+        <h2 className="mt-h1" style={{ fontSize: 30, marginTop: 8 }}>Say what's happening. The plan keeps up.</h2>
+        <p className="mt-sub" style={{ fontSize: 15.5, lineHeight: 1.55 }}>
+          Tell it "the turkey needs 20 more minutes". It finds the step, every screen reflows, and dinner only moves after you tap Approve. It can also split a pasted recipe into steps, quoting the recipe for each time.
+        </p>
+        <div className="mt-toolbar" style={{ marginTop: 16 }}>
+          <button type="button" className="mt-btn mt-btn--ink mt-btn--lg" onClick={signInForAgent}>
+            Sign up to try the agent
+          </button>
+          <span className="text-sm" style={{ color: "var(--mt-ink-3)" }}>Any email, no verification, about 15 seconds.</span>
+        </div>
+      </div>
+    </section>
   );
 }
