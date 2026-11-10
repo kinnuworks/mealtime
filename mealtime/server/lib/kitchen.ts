@@ -102,7 +102,18 @@ export async function loadKitchen(key: string): Promise<{ row: KitchenRow; role:
   };
 }
 
+/** Keep each hands-on step with the cook it was first given, so phones don't reshuffle. */
+export function settleCooks(doc: KitchenDoc) {
+  const plan = computePlan(doc);
+  const byId = new Map(plan.steps.map((s) => [s.id, s]));
+  for (const s of doc.steps) {
+    const p = byId.get(s.id);
+    if (s.handsOn && !s.cook && p?.assignedCook) s.cook = p.assignedCook;
+  }
+}
+
 export async function createKitchen(doc: KitchenDoc) {
+  if (doc.steps.length) settleCooks(doc);
   const id = newId(8);
   const hostKey = `h${newId(12)}`;
   const cookKey = `c${newId(12)}`;
@@ -121,6 +132,7 @@ export async function mutateKitchen(
   if (opts.hostOnly && role !== "host") throw new Error("Only the host can change the plan. Cooks can mark steps done or report delays.");
   const doc = structuredClone(row.doc);
   fn(doc, role);
+  if (doc.steps.length) settleCooks(doc);
   doc.log = doc.log.slice(-200);
   await getDb()
     .update(schema.kitchens)
@@ -170,7 +182,7 @@ export interface Plan {
   slipMinutes: number;
   firstStart: number;
   conflicts: { id: string; reason: string }[];
-  timeCheck: { dishId: string; dishName: string; planned: number; stated?: number; ok: boolean | null }[];
+  timeCheck: { dishId: string; dishName: string; planned: number; active: number; stated?: number; ok: boolean | null }[];
 }
 
 const SLIP_GRACE = 2;
@@ -220,9 +232,12 @@ export function computePlan(doc: KitchenDoc, nowMs = kitchenNow(doc)): Plan {
     }
   }
   const timeCheck = doc.dishes.map((d) => {
-    const planned = doc.steps.filter((s) => s.dishId === d.id).reduce((a, s) => a + s.minutes, 0);
+    const mine = doc.steps.filter((s) => s.dishId === d.id);
+    const planned = mine.reduce((a, s) => a + s.minutes, 0);
+    // Stated totals usually leave out waiting time (resting, chilling), so compare the active part.
+    const active = mine.filter((s) => s.handsOn || s.need !== "none").reduce((a, s) => a + s.minutes, 0);
     const stated = d.stated?.total ?? ((d.stated?.prep ?? 0) + (d.stated?.cook ?? 0) || undefined);
-    return { dishId: d.id, dishName: d.name, planned, stated, ok: stated ? Math.abs(planned - stated) <= Math.max(15, stated * 0.25) : null };
+    return { dishId: d.id, dishName: d.name, planned, stated, ok: stated ? Math.abs(active - stated) <= Math.max(15, stated * 0.25) || Math.abs(planned - stated) <= Math.max(15, stated * 0.25) : null, active };
   });
   return {
     steps: out,

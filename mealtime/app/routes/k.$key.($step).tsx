@@ -87,7 +87,7 @@ function Header({ kitchen, hostKey, signedIn }: { kitchen: KitchenView; hostKey:
           Dinner at <span style={{ fontVariantNumeric: "tabular-nums" }}>{fmtTime(p.projectedServeAt)}</span>.
         </h1>
         <p className="mt-sub">
-          Start cooking at <strong className="mt-mono">{fmtTime(p.firstStart)}</strong> · {kitchen.dishes.length} dishes · {kitchen.kitchenSetup.cooks.length} cooks · {kitchen.kitchenSetup.ovens} oven
+          {p.steps.some((x) => x.startedAt || x.doneAt) ? <>Cooking now</> : <>Start cooking at <strong className="mt-mono">{fmtTime(p.firstStart)}</strong></>} · {kitchen.dishes.length} dishes · {kitchen.kitchenSetup.cooks.length} cooks · {kitchen.kitchenSetup.ovens} oven
         </p>
       </div>
       <div className="mt-toolbar">
@@ -264,8 +264,8 @@ function Dishes({ kitchen, hostKey, signedIn }: { kitchen: KitchenView; hostKey:
                   ? "Waiting for the agent to split it into steps…"
                   : c?.stated
                     ? c.ok
-                      ? `Steps add up to ${fmtDur(c.planned)}; recipe says ${fmtDur(c.stated)} ✓`
-                      : `Steps add up to ${fmtDur(c.planned)} but the recipe says ${fmtDur(c.stated)}: check it`
+                      ? `${fmtDur(c.active)} of cooking, ${fmtDur(c.stated)} in the recipe ✓`
+                      : `${fmtDur(c.active)} of cooking, but the recipe says ${fmtDur(c.stated)}: check it`
                     : `Steps add up to ${fmtDur(c?.planned ?? 0)}; recipe gives no total`}
               </span>
             </li>

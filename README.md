@@ -10,7 +10,7 @@ It's built on Agent-Native because the agent and the screens edit the same plan 
 
 1. Open the live app. A Thanksgiving dinner for two cooks, built from four real recipes, is already planned.
 2. Click any bar on the timeline. You'll see the sentence from the recipe that the step's time comes from.
-3. Press **Start cooking now**, then **Done** on Sam's phone (the frame on the right, or scan the QR code with your own phone).
+3. Press **Start cooking now**, then **Start** on Sam's phone (the frame on the right, or scan the QR code with your own phone).
 4. Sign in, then tell the agent "the turkey needs 20 more minutes". It adds the time to the right step, works out how late dinner will be, and puts an approval card at the top of the page. Nothing moves until you press Approve.
 
 ## How it works
