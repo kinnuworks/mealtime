@@ -1,11 +1,11 @@
-import { sendToAgentChat } from "@agent-native/core/client/agent-chat";
 import { AgentSidebar, AgentToggleButton } from "@agent-native/toolkit/app/chat";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
-import { Timeline } from "@/components/kitchen/Timeline";
+import { dishColor, Timeline } from "@/components/kitchen/Timeline";
 import { act, fmtDur, fmtTime, useKitchen, type KitchenView, type PlanStep } from "@/lib/kitchen-client";
 import { TAB_ID } from "@/lib/tab-id";
+import { askAgent, signInForAgent, useSignedIn } from "@/lib/agent-gate";
 
 export function meta() {
   return [{ title: "Mealtime: kitchen" }];
@@ -15,6 +15,7 @@ export default function HostKitchen() {
   const { key = "", step } = useParams();
   const navigate = useNavigate();
   const { kitchen, clockOffset, error, loading } = useKitchen(key);
+  const signedIn = useSignedIn();
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     const id = setInterval(() => setNow(Date.now()), 15_000);
@@ -32,6 +33,7 @@ export default function HostKitchen() {
 
   return (
     <AgentSidebar
+      enabled={signedIn}
       position="right"
       storageKey={`kitchen-${key.slice(0, 8)}`}
       browserTabId={TAB_ID}
@@ -44,8 +46,8 @@ export default function HostKitchen() {
         "What should I be doing right now?",
       ]}
     >
-      <main className="mx-auto flex max-w-6xl flex-col gap-4 p-4 md:p-6">
-        <Header kitchen={kitchen} hostKey={key} />
+      <main className="mt-app mt-page">
+        <Header kitchen={kitchen} hostKey={key} signedIn={signedIn} />
         <Approvals kitchen={kitchen} hostKey={key} />
         <Timeline
           steps={kitchen.plan.steps}
@@ -56,10 +58,10 @@ export default function HostKitchen() {
           selectedId={selected?.id}
           onSelect={select}
         />
-        <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
-          <div className="flex flex-col gap-4">
-            {selected ? <StepPanel step={selected} hostKey={key} units={kitchen.units} cooks={kitchen.kitchenSetup.cooks} /> : <Hint />}
-            <Dishes kitchen={kitchen} hostKey={key} />
+        <div className="mt-grid">
+          <div className="mt-col">
+            {selected ? <StepPanel signedIn={signedIn} step={selected} hostKey={key} units={kitchen.units} cooks={kitchen.kitchenSetup.cooks} /> : <Hint />}
+            <Dishes signedIn={signedIn} kitchen={kitchen} hostKey={key} />
             <Activity kitchen={kitchen} />
           </div>
           {kitchen.cookKey ? <CookPreview cookKey={kitchen.cookKey} /> : null}
@@ -70,47 +72,53 @@ export default function HostKitchen() {
 }
 
 function Centered({ children }: { children: React.ReactNode }) {
-  return <main className="flex min-h-dvh items-center justify-center p-6 text-center text-sm text-muted-foreground">{children}</main>;
+  return <main className="mt-app flex min-h-dvh items-center justify-center p-6 text-center text-sm" style={{ color: "var(--mt-ink-3)" }}>{children}</main>;
 }
 
-function Header({ kitchen, hostKey }: { kitchen: KitchenView; hostKey: string }) {
+function Header({ kitchen, hostKey, signedIn }: { kitchen: KitchenView; hostKey: string; signedIn: boolean }) {
   const p = kitchen.plan;
   const toConfirm = p.steps.filter((s) => s.timeSource === "estimate" && !s.confirmed).length;
   const late = p.slipMinutes > 0;
   return (
-    <header className="flex flex-wrap items-end justify-between gap-3">
+    <header className="mt-header">
       <div>
-        <h1 className="text-2xl font-semibold">{kitchen.title}</h1>
-        <p className="text-sm text-muted-foreground">
-          Dinner at <strong className="text-foreground">{fmtTime(p.serveAt)}</strong>
-          {" · "}start cooking at {fmtTime(p.firstStart)}
-          {" · "}
-          {kitchen.dishes.length} dishes, {kitchen.kitchenSetup.cooks.length} cooks, {kitchen.kitchenSetup.ovens} oven
+        <span className="mt-eyebrow"><span className="dot" />Mealtime · {kitchen.title}</span>
+        <h1 className="mt-h1">
+          Dinner at <span style={{ fontVariantNumeric: "tabular-nums" }}>{fmtTime(p.projectedServeAt)}</span>.
+        </h1>
+        <p className="mt-sub">
+          Start cooking at <strong className="mt-mono">{fmtTime(p.firstStart)}</strong> · {kitchen.dishes.length} dishes · {kitchen.kitchenSetup.cooks.length} cooks · {kitchen.kitchenSetup.ovens} oven
         </p>
       </div>
-      <div className="flex flex-wrap gap-2 text-xs">
+      <div className="mt-toolbar">
         {late ? (
-          <span className="rounded bg-red-100 px-2 py-1 text-red-800">Running {p.slipMinutes} min late: dinner at {fmtTime(p.projectedServeAt)}</span>
+          <span className="mt-pill mt-pill--late">Running {p.slipMinutes} min late</span>
         ) : (
-          <span className="rounded bg-emerald-100 px-2 py-1 text-emerald-800">On time</span>
+          <span className="mt-pill mt-pill--good">On time</span>
         )}
-        {toConfirm ? <span className="rounded bg-amber-100 px-2 py-1 text-amber-900">{toConfirm} estimated times to check</span> : null}
-        <button type="button" className="rounded border px-2 py-1" onClick={() => act("demo-clock", { kitchen: hostKey, mode: "start-now" })}>
-          Start cooking now
-        </button>
-        <button type="button" className="rounded border px-2 py-1" onClick={() => act("demo-clock", { kitchen: hostKey, mode: "skip", minutes: 15 })}>
-          Skip ahead 15 min
-        </button>
+        {toConfirm ? <span className="mt-pill mt-pill--est">{toConfirm} times to check</span> : null}
+        {p.conflicts.length ? <span className="mt-pill mt-pill--late">{p.conflicts.length} {p.conflicts.length === 1 ? "clash" : "clashes"}</span> : null}
         {kitchen.clockOffsetMin ? (
-          <button type="button" className="rounded bg-sky-100 px-2 py-1 text-sky-900" onClick={() => act("demo-clock", { kitchen: hostKey, mode: "reset" })}>
-            Demo clock +{kitchen.clockOffsetMin} min (reset)
+          <button type="button" className="mt-pill mt-pill--clock" style={{ border: 0, cursor: "pointer" }} onClick={() => act("demo-clock", { kitchen: hostKey, mode: "reset" })}>
+            Demo clock +{kitchen.clockOffsetMin} min · reset
           </button>
         ) : null}
-        {p.conflicts.length ? <span className="rounded bg-red-100 px-2 py-1 text-red-800">{p.conflicts.length} clashes</span> : null}
-        <a className="rounded border px-2 py-1" href={`/k/${hostKey}`} onClick={(e) => { e.preventDefault(); navigator.clipboard?.writeText(location.href); }}>
+        <button type="button" className="mt-btn" onClick={() => act("demo-clock", { kitchen: hostKey, mode: "start-now" })}>
+          Start cooking now
+        </button>
+        <button type="button" className="mt-btn" onClick={() => act("demo-clock", { kitchen: hostKey, mode: "skip", minutes: 15 })}>
+          Skip 15 min
+        </button>
+        <a className="mt-btn mt-btn--ghost" href={`/k/${hostKey}`} onClick={(e) => { e.preventDefault(); navigator.clipboard?.writeText(location.href); }}>
           Copy host link
         </a>
-        <AgentToggleButton className="h-auto w-auto rounded border px-2 py-1 text-xs text-foreground" icon={<span>Ask the agent</span>} />
+        {signedIn ? (
+          <AgentToggleButton className="mt-btn mt-btn--ink h-auto w-auto" icon={<span>Ask the agent</span>} />
+        ) : (
+          <button type="button" className="mt-btn mt-btn--ink" onClick={signInForAgent}>
+            Sign in to talk to the agent
+          </button>
+        )}
       </div>
     </header>
   );
@@ -120,17 +128,18 @@ function Approvals({ kitchen, hostKey }: { kitchen: KitchenView; hostKey: string
   const [busy, setBusy] = useState<string | null>(null);
   if (!kitchen.approvals.length) return null;
   return (
-    <section className="flex flex-col gap-2">
+    <section className="flex flex-col gap-3">
       {kitchen.approvals.map((a) => (
-        <div key={a.id} className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-amber-400 bg-amber-50 p-3 text-sm text-amber-950">
+        <div key={a.id} className="mt-approval">
           <span>
-            <strong>{a.requestedBy} asks:</strong> {a.change.kind === "serve-time" ? `Move dinner to ${fmtTime(a.change.serveAt)}?` : a.summary}
+            <span className="who">{a.requestedBy} asks</span>
+            <span className="what">{a.change.kind === "serve-time" ? `Move dinner to ${fmtTime(a.change.serveAt)}?` : a.summary}</span>
           </span>
           <span className="flex gap-2">
-            <button type="button" disabled={busy === a.id} className="rounded bg-amber-900 px-3 py-1 text-white" onClick={async () => { setBusy(a.id); await act("resolve-approval", { kitchen: hostKey, approvalId: a.id, approve: true }).finally(() => setBusy(null)); }}>
+            <button type="button" disabled={busy === a.id} className="mt-btn mt-btn--ink" onClick={async () => { setBusy(a.id); await act("resolve-approval", { kitchen: hostKey, approvalId: a.id, approve: true }).finally(() => setBusy(null)); }}>
               Approve
             </button>
-            <button type="button" disabled={busy === a.id} className="rounded border border-amber-900 px-3 py-1" onClick={async () => { setBusy(a.id); await act("resolve-approval", { kitchen: hostKey, approvalId: a.id, approve: false }).finally(() => setBusy(null)); }}>
+            <button type="button" disabled={busy === a.id} className="mt-btn" onClick={async () => { setBusy(a.id); await act("resolve-approval", { kitchen: hostKey, approvalId: a.id, approve: false }).finally(() => setBusy(null)); }}>
               Decline
             </button>
           </span>
@@ -141,70 +150,72 @@ function Approvals({ kitchen, hostKey }: { kitchen: KitchenView; hostKey: string
 }
 
 function Hint() {
-  return <p className="rounded-lg border border-dashed p-4 text-sm text-muted-foreground">Click a step on the timeline to see where its time came from, mark it done, or say it's running late.</p>;
+  return <p className="mt-card mt-card--flat text-sm" style={{ color: "var(--mt-ink-3)" }}>Click a step on the timeline to see where its time came from, mark it done, or say it's running late.</p>;
 }
 
-function StepPanel({ step, hostKey, units, cooks }: { step: PlanStep; hostKey: string; units: string; cooks: string[] }) {
+function StepPanel({ step, hostKey, units, cooks, signedIn }: { step: PlanStep; hostKey: string; units: string; cooks: string[]; signedIn: boolean }) {
   const [minutes, setMinutes] = useState(step.minutes);
   useEffect(() => setMinutes(step.minutes), [step.id, step.minutes]);
   const run = (name: string, p: Record<string, unknown>) => act(name, { kitchen: hostKey, by: "Host", via: "timeline", ...p });
   return (
-    <section className="rounded-lg border p-4">
+    <section className="mt-card">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
-          <p className="text-xs uppercase tracking-wide text-muted-foreground">{step.dishName}</p>
-          <h2 className="text-lg font-semibold">{step.label}</h2>
-          <p className="text-sm text-muted-foreground">
-            {fmtTime(step.start)}–{fmtTime(step.end)} · {fmtDur(step.minutes)}
+          <p className="mt-eyebrow">{step.dishName}</p>
+          <h2 className="mt-h1" style={{ fontSize: 26, marginTop: 4 }}>{step.label}</h2>
+          <p className="mt-sub" style={{ fontSize: 14 }}>
+            <span className="mt-mono">{fmtTime(step.start)}–{fmtTime(step.end)}</span> · {fmtDur(step.minutes)}
             {step.need === "oven" ? ` · oven ${step.temp ?? "?"}°${units}` : step.need === "burner" ? " · burner" : ""}
             {step.handsOn ? ` · ${step.assignedCook ?? "a cook"}` : " · waiting"}
           </p>
         </div>
-        <span className="text-xs">{step.state === "done" ? "Done" : step.state === "running" ? "Cooking now" : step.state === "next" ? "Up next" : "Later"}</span>
+        <span className={`mt-pill ${step.state === "running" ? "mt-pill--good" : "mt-pill--clock"}`}>{step.state === "done" ? "Done" : step.state === "running" ? "Cooking now" : step.state === "next" ? "Up next" : "Later"}</span>
       </div>
-      <div className="mt-3 rounded bg-muted/60 p-3 text-sm">
+      <div className={`mt-quote ${step.timeSource === "estimate" ? "mt-quote--est" : ""}`}>
         {step.timeSource === "quoted" ? (
           <p>
-            <span className="font-medium">From the recipe:</span> “{step.quote}” <span className="text-emerald-700">✓ checked against the recipe text</span>
+            From the recipe: <q>{step.quote}</q>
+            <br />
+            <span className="ok">✓ Checked against the recipe text</span>
           </p>
         ) : step.timeSource === "host" ? (
           <p>You set this time.</p>
         ) : (
-          <p className="text-amber-900">
+          <p>
             The recipe doesn't say how long this takes, so {fmtDur(step.minutes)} is an estimate.{" "}
             {step.confirmed ? "You confirmed it." : "Check it before you start."}
           </p>
         )}
       </div>
-      <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
+      <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
         {step.state !== "done" ? (
           <>
-            <button type="button" className="rounded bg-foreground px-3 py-1.5 text-background" onClick={() => run("mark-step", { stepId: step.id, status: step.state === "running" ? "done" : "start" })}>
+            <button type="button" className="mt-btn mt-btn--ink" onClick={() => run("mark-step", { stepId: step.id, status: step.state === "running" ? "done" : "start" })}>
               {step.state === "running" ? "Mark done" : "Start now"}
             </button>
-            <button type="button" className="rounded border px-3 py-1.5" onClick={() => run("report-delay", { stepId: step.id, extraMinutes: 10 })}>
+            <button type="button" className="mt-btn" onClick={() => run("report-delay", { stepId: step.id, extraMinutes: 10 })}>
               Running 10 min late
             </button>
           </>
         ) : (
-          <button type="button" className="rounded border px-3 py-1.5" onClick={() => run("mark-step", { stepId: step.id, status: "undo" })}>Undo done</button>
+          <button type="button" className="mt-btn" onClick={() => run("mark-step", { stepId: step.id, status: "undo" })}>Undo done</button>
         )}
         <label className="flex items-center gap-1">
-          <input type="number" min={1} className="w-16 rounded border px-2 py-1" value={minutes} onChange={(e) => setMinutes(Number(e.target.value))} /> min
+          <input type="number" min={1} className="mt-input mt-mono" style={{ width: 72, flex: "none", minHeight: 34, padding: "6px 10px" }} value={minutes} onChange={(e) => setMinutes(Number(e.target.value))} /> min
         </label>
         {minutes !== step.minutes ? (
-          <button type="button" className="rounded border px-3 py-1.5" onClick={() => run("update-step", { stepId: step.id, minutes })}>Save time</button>
+          <button type="button" className="mt-btn" onClick={() => run("update-step", { stepId: step.id, minutes })}>Save time</button>
         ) : step.timeSource === "estimate" && !step.confirmed ? (
-          <button type="button" className="rounded border border-amber-600 px-3 py-1.5" onClick={() => run("update-step", { stepId: step.id, confirm: true })}>Looks right</button>
+          <button type="button" className="mt-btn mt-btn--warn" onClick={() => run("update-step", { stepId: step.id, confirm: true })}>Looks right</button>
         ) : null}
-        <button type="button" className="rounded border px-3 py-1.5" onClick={() => run("update-step", { stepId: step.id, pinnedStart: step.pinnedStart ? null : step.start })}>
+        <button type="button" className="mt-btn" onClick={() => run("update-step", { stepId: step.id, pinnedStart: step.pinnedStart ? null : step.start })}>
           {step.pinnedStart ? "Unpin" : "Pin this time"}
         </button>
         {step.handsOn && cooks.length > 1 ? (
           <button
             type="button"
-            className="rounded border px-3 py-1.5"
-            onClick={() => sendToAgentChat({ message: `Hand "${step.label}" (${step.dishName}) to ${cooks.find((c) => c !== step.assignedCook)}.`, submit: true })}
+            className="mt-btn"
+            onClick={() => askAgent(signedIn, `Hand "${step.label}" (${step.dishName}) to ${cooks.find((c) => c !== step.assignedCook)}.`)}
           >
             Hand to {cooks.find((c) => c !== step.assignedCook)}
           </button>
@@ -214,7 +225,7 @@ function StepPanel({ step, hostKey, units, cooks }: { step: PlanStep; hostKey: s
   );
 }
 
-function Dishes({ kitchen, hostKey }: { kitchen: KitchenView; hostKey: string }) {
+function Dishes({ kitchen, hostKey, signedIn }: { kitchen: KitchenView; hostKey: string; signedIn: boolean }) {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -228,7 +239,7 @@ function Dishes({ kitchen, hostKey }: { kitchen: KitchenView; hostKey: string })
       const isUrl = /^https?:\/\//.test(v);
       const r = (await act("add-dish", { kitchen: hostKey, by: "Host", via: "timeline", ...(isUrl ? { url: v } : { text: v }) })) as unknown as { dishId: string; name: string };
       setInput("");
-      sendToAgentChat({ message: `Split "${r.name}" (dish ${r.dishId}) into steps, quoting the recipe for every time.`, submit: true });
+      askAgent(signedIn, `Split "${r.name}" (dish ${r.dishId}) into steps, quoting the recipe for every time.`);
     } catch (e) {
       setErr((e as Error).message);
     } finally {
@@ -236,18 +247,19 @@ function Dishes({ kitchen, hostKey }: { kitchen: KitchenView; hostKey: string })
     }
   };
   return (
-    <section className="rounded-lg border p-4">
-      <h2 className="mb-2 text-sm font-semibold">Dishes</h2>
-      <ul className="flex flex-col gap-1 text-sm">
+    <section className="mt-card">
+      <div className="mt-card-head"><h2 className="mt-h2">Dishes</h2><span className="mt-eyebrow">From real recipes</span></div>
+      <ul>
         {kitchen.dishes.map((d) => {
           const c = check.get(d.id);
           return (
-            <li key={d.id} className="flex flex-wrap items-baseline justify-between gap-2 border-b py-1 last:border-b-0">
-              <span>
-                {d.name}{" "}
-                {d.sourceUrl ? <a className="text-xs text-muted-foreground underline" href={d.sourceUrl} target="_blank" rel="noreferrer">{d.site}</a> : <span className="text-xs text-muted-foreground">pasted</span>}
+            <li key={d.id} className="mt-dish" style={dishColor(kitchen.dishes.map((x) => x.id), d.id)}>
+              <span className="name">
+                <span className="sw" />
+                {d.name}
+                {d.sourceUrl ? <a href={d.sourceUrl} target="_blank" rel="noreferrer">{d.site}</a> : <span className="src">pasted</span>}
               </span>
-              <span className="text-xs text-muted-foreground">
+              <span className={`chk ${d.status === "needs-steps" ? "" : c?.stated ? (c.ok ? "chk--ok" : "chk--warn") : ""}`}>
                 {d.status === "needs-steps"
                   ? "Waiting for the agent to split it into steps…"
                   : c?.stated
@@ -260,15 +272,15 @@ function Dishes({ kitchen, hostKey }: { kitchen: KitchenView; hostKey: string })
           );
         })}
       </ul>
-      <div className="mt-3 flex gap-2">
+      <div className="mt-4 flex gap-2">
         <textarea
-          className="min-h-[38px] flex-1 rounded border px-2 py-1.5 text-sm"
+          className="mt-input"
           rows={1}
           placeholder="Paste a recipe link, or the recipe text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
-        <button type="button" disabled={busy} className="rounded bg-foreground px-3 py-1.5 text-sm text-background" onClick={add}>
+        <button type="button" disabled={busy} className="mt-btn mt-btn--ink" style={{ height: 40 }} onClick={add}>
           {busy ? "Reading…" : "Add dish"}
         </button>
       </div>
@@ -279,15 +291,15 @@ function Dishes({ kitchen, hostKey }: { kitchen: KitchenView; hostKey: string })
 
 function Activity({ kitchen }: { kitchen: KitchenView }) {
   return (
-    <section className="rounded-lg border p-4">
-      <h2 className="mb-2 text-sm font-semibold">Activity</h2>
-      <ul className="flex max-h-56 flex-col gap-1 overflow-auto text-xs">
+    <section className="mt-card">
+      <div className="mt-card-head"><h2 className="mt-h2">Activity</h2><span className="mt-eyebrow">Who changed what, and from where</span></div>
+      <ul className="mt-log">
         {kitchen.log.map((l, i) => (
-          <li key={`${l.at}-${i}`} className="flex gap-2">
-            <span className="w-16 shrink-0 text-muted-foreground">{fmtTime(l.at)}</span>
-            <span className="w-24 shrink-0 font-medium">
+          <li key={`${l.at}-${i}`}>
+            <span className="t">{fmtTime(l.at)}</span>
+            <span style={{ fontWeight: 650 }}>
               {l.by}
-              <span className="font-normal text-muted-foreground"> · {l.via}</span>
+              <span className={`mt-via ${l.via === "agent" || l.via === "voice" ? "mt-via--agent" : ""}`}>{l.via}</span>
             </span>
             <span>{l.text}</span>
           </li>
@@ -302,22 +314,29 @@ function CookPreview({ cookKey }: { cookKey: string }) {
   const [qr, setQr] = useState("");
   useEffect(() => {
     import("qrcode")
-      .then((m) => ((m as unknown as { default?: typeof m }).default ?? m).toDataURL(url, { margin: 1, width: 160 }))
+      .then((m) => ((m as unknown as { default?: typeof m }).default ?? m).toDataURL(url, { margin: 1, width: 240, color: { dark: "#17150f", light: "#fffefc" } }))
       .then(setQr)
       .catch(() => setQr(""));
   }, [url]);
   return (
-    <aside className="flex flex-col gap-3">
-      <div className="rounded-lg border p-3 text-center">
-        <p className="mb-2 text-sm font-semibold">Cooks: scan to join</p>
-        {qr ? <img src={qr} alt="QR code for the cook link" className="mx-auto h-40 w-40" /> : null}
-        <button type="button" className="mt-2 text-xs underline" onClick={() => navigator.clipboard?.writeText(url)}>
-          Copy cook link
-        </button>
+    <aside className="mt-col">
+      <div className="mt-card mt-qr">
+        {qr ? <img src={qr} alt="QR code for the cook link" /> : null}
+        <div>
+          <h2 className="mt-h2">Cooks: scan to join</h2>
+          <p className="text-sm" style={{ color: "var(--mt-ink-3)", margin: "4px 0 10px" }}>Each phone shows only that cook's next step.</p>
+          <button type="button" className="mt-btn" onClick={() => navigator.clipboard?.writeText(url)}>
+            Copy cook link
+          </button>
+        </div>
       </div>
-      <div className="rounded-[2rem] border-8 border-foreground/80 bg-background shadow-lg">
-        <p className="bg-foreground/80 pb-1 text-center text-[10px] text-background">Sam's phone (live)</p>
-        <iframe title="Sam's phone" src={`/c/${cookKey}?as=Sam`} className="h-[480px] w-full rounded-b-[1.4rem]" />
+      <div>
+        <div className="mt-phone">
+          <div className="mt-phone__screen">
+            <iframe title="Sam's phone" src={`/c/${cookKey}?as=Sam`} />
+          </div>
+        </div>
+        <p className="mt-phone__label"><span className="live" />Sam's phone, live</p>
       </div>
     </aside>
   );

@@ -1,0 +1,1122 @@
+{
+  "model": "claude-sonnet-5-5",
+  "ranAt": "2026-11-10T03:01:53.354Z",
+  "rows": [
+    {
+      "slug": "beef-stroganoff-recipetineats",
+      "site": "recipetineats.com",
+      "name": "Beef Stroganoff",
+      "url": "https://www.recipetineats.com/beef-stroganoff/",
+      "steps": 7,
+      "quoted": 3,
+      "quoteGiven": 3,
+      "quoteFailed": 0,
+      "planned": 38,
+      "stated": 30,
+      "totalWithin25pct": true,
+      "detail": [
+        {
+          "label": "Boil pasta or egg noodles",
+          "minutes": 10,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Pound, slice and season the beef",
+          "minutes": 8,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Sear beef in two batches and set aside",
+          "minutes": 5,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Sauté onion and mushrooms in butter until golden",
+          "minutes": 8,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Stir in flour, then add broth",
+          "minutes": 1,
+          "timeSource": "quoted",
+          "quote": "cook, stirring, for 1 minute"
+        },
+        {
+          "label": "Add sour cream and mustard, simmer sauce until thickened",
+          "minutes": 5,
+          "timeSource": "quoted",
+          "quote": "3 - 5 minutes"
+        },
+        {
+          "label": "Return beef to sauce and warm through",
+          "minutes": 1,
+          "timeSource": "quoted",
+          "quote": "Simmer for 1 minute"
+        }
+      ]
+    },
+    {
+      "slug": "roast-chicken-recipetineats",
+      "site": "recipetineats.com",
+      "name": "Roast Chicken",
+      "url": "https://www.recipetineats.com/roast-chicken/",
+      "steps": 6,
+      "quoted": 3,
+      "quoteGiven": 4,
+      "quoteFailed": 1,
+      "planned": 165,
+      "stated": 105,
+      "totalWithin25pct": false,
+      "detail": [
+        {
+          "label": "Bring chicken to room temperature",
+          "minutes": 30,
+          "timeSource": "quoted",
+          "quote": "30 minutes before cooking"
+        },
+        {
+          "label": "Preheat oven",
+          "minutes": 15,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Make herb butter, loosen skin, stuff, tie and season chicken",
+          "minutes": 20,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Roast at high heat",
+          "minutes": 10,
+          "timeSource": "quoted",
+          "quote": "Roast for 10 minutes"
+        },
+        {
+          "label": "Roast at lower heat, basting twice",
+          "minutes": 75,
+          "timeSource": "estimate",
+          "quote": "Roast for a further 1 hr 15 minutes"
+        },
+        {
+          "label": "Rest chicken uncovered",
+          "minutes": 15,
+          "timeSource": "quoted",
+          "quote": "Rest for 15 minutes"
+        }
+      ]
+    },
+    {
+      "slug": "chop-suey-recipetineats",
+      "site": "recipetineats.com",
+      "name": "Chop Suey - Chicken Stir Fry",
+      "url": "https://www.recipetineats.com/chicken-stir-fry-chop-suey/",
+      "steps": 8,
+      "quoted": 5,
+      "quoteGiven": 5,
+      "quoteFailed": 0,
+      "planned": 34,
+      "stated": 14,
+      "totalWithin25pct": false,
+      "detail": [
+        {
+          "label": "Tenderize chicken with baking soda",
+          "minutes": 20,
+          "timeSource": "quoted",
+          "quote": "set aside for 20 minutes"
+        },
+        {
+          "label": "Rinse and pat dry chicken",
+          "minutes": 2,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Mix the sauce",
+          "minutes": 2,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Chop choy sum and carrot",
+          "minutes": 5,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Stir fry garlic and onion",
+          "minutes": 1,
+          "timeSource": "quoted",
+          "quote": "Cook for 1 minute"
+        },
+        {
+          "label": "Cook chicken until white",
+          "minutes": 1,
+          "timeSource": "quoted",
+          "quote": "cook for 1 minute"
+        },
+        {
+          "label": "Stir fry choy sum stems, carrot and mushrooms",
+          "minutes": 1,
+          "timeSource": "quoted",
+          "quote": "Stir fry for 1 minute"
+        },
+        {
+          "label": "Add leaves, sprouts and sauce; stir fry until thick",
+          "minutes": 2,
+          "timeSource": "quoted",
+          "quote": "Stir fry for 1 to 2 minutes"
+        }
+      ]
+    },
+    {
+      "slug": "chicken-fried-rice-recipetineats",
+      "site": "recipetineats.com",
+      "name": "Chicken Fried Rice",
+      "url": "https://www.recipetineats.com/chicken-fried-rice/",
+      "steps": 7,
+      "quoted": 5,
+      "quoteGiven": 5,
+      "quoteFailed": 0,
+      "planned": 22,
+      "stated": 20,
+      "totalWithin25pct": true,
+      "detail": [
+        {
+          "label": "Mix sauce and marinate chicken",
+          "minutes": 10,
+          "timeSource": "quoted",
+          "quote": "set aside for 10 minutes"
+        },
+        {
+          "label": "Scramble eggs in wok, then remove",
+          "minutes": 3,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Cook bacon until fat melts, add onion and garlic, cook until golden",
+          "minutes": 3,
+          "timeSource": "quoted",
+          "quote": "about 1 1/2 minutes"
+        },
+        {
+          "label": "Add frozen vegetables and cook",
+          "minutes": 1,
+          "timeSource": "quoted",
+          "quote": "Cook for 1 minute"
+        },
+        {
+          "label": "Add chicken and cook until white",
+          "minutes": 2,
+          "timeSource": "quoted",
+          "quote": "about 1 1/2 minutes"
+        },
+        {
+          "label": "Add rice and sauce, stir constantly",
+          "minutes": 2,
+          "timeSource": "quoted",
+          "quote": "Cook for 1 1/2 minutes"
+        },
+        {
+          "label": "Toss in egg and green onion, remove from heat",
+          "minutes": 1,
+          "timeSource": "estimate",
+          "quote": null
+        }
+      ]
+    },
+    {
+      "slug": "roast-potatoes-recipetineats",
+      "site": "recipetineats.com",
+      "name": "Easy roast potatoes",
+      "url": "https://www.recipetineats.com/roast-potatoes/",
+      "steps": 6,
+      "quoted": 2,
+      "quoteGiven": 2,
+      "quoteFailed": 0,
+      "planned": 79,
+      "stated": 65,
+      "totalWithin25pct": true,
+      "detail": [
+        {
+          "label": "Preheat oven",
+          "minutes": 10,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Smash garlic and toss potatoes with oil, salt, pepper, thyme and garlic",
+          "minutes": 5,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Roast potatoes until first side is cooked",
+          "minutes": 30,
+          "timeSource": "quoted",
+          "quote": "Roast for 30 minutes"
+        },
+        {
+          "label": "Toss potatoes",
+          "minutes": 2,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Roast potatoes until golden",
+          "minutes": 30,
+          "timeSource": "quoted",
+          "quote": "further 25 to 35 minutes"
+        },
+        {
+          "label": "Sprinkle with parsley and serve",
+          "minutes": 2,
+          "timeSource": "estimate",
+          "quote": null
+        }
+      ]
+    },
+    {
+      "slug": "sandwich-bread-kingarthur",
+      "site": "kingarthurbaking.com",
+      "name": "Classic Sandwich Bread",
+      "url": "https://www.kingarthurbaking.com/recipes/classic-sandwich-bread-recipe",
+      "steps": 7,
+      "quoted": 4,
+      "quoteGiven": 5,
+      "quoteFailed": 1,
+      "planned": 222,
+      "stated": 162,
+      "totalWithin25pct": false,
+      "detail": [
+        {
+          "label": "Mix and knead the dough",
+          "minutes": 7,
+          "timeSource": "quoted",
+          "quote": "5 to 7 minutes at medium-low speed"
+        },
+        {
+          "label": "First rise in a covered, greased bowl",
+          "minutes": 60,
+          "timeSource": "quoted",
+          "quote": "about 1 to 2 hours"
+        },
+        {
+          "label": "Deflate dough and shape into an 8\" log",
+          "minutes": 5,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Second rise in the loaf pan",
+          "minutes": 60,
+          "timeSource": "quoted",
+          "quote": "rise for about 60 minutes"
+        },
+        {
+          "label": "Preheat oven",
+          "minutes": 15,
+          "timeSource": "estimate",
+          "quote": "preheat your oven to 350°F"
+        },
+        {
+          "label": "Bake the loaf until light golden brown",
+          "minutes": 30,
+          "timeSource": "quoted",
+          "quote": "Bake the bread for 30 to 35 minutes"
+        },
+        {
+          "label": "Cool the bread on a rack before slicing",
+          "minutes": 45,
+          "timeSource": "estimate",
+          "quote": null
+        }
+      ]
+    },
+    {
+      "slug": "fudge-brownies-kingarthur",
+      "site": "kingarthurbaking.com",
+      "name": "Fudge Brownies",
+      "url": "https://www.kingarthurbaking.com/recipes/fudge-brownies-recipe",
+      "steps": 7,
+      "quoted": 2,
+      "quoteGiven": 2,
+      "quoteFailed": 0,
+      "planned": 82,
+      "stated": 40,
+      "totalWithin25pct": false,
+      "detail": [
+        {
+          "label": "Preheat oven and grease the 9x13 pan",
+          "minutes": 10,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Beat eggs, cocoa, salt, baking powder, espresso powder and vanilla",
+          "minutes": 1,
+          "timeSource": "quoted",
+          "quote": "Beat on medium speed for about 1 minute"
+        },
+        {
+          "label": "Melt butter with sugar and heat until hot but not bubbling",
+          "minutes": 5,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Stir hot butter mixture into egg mixture, then fold in flour and chocolate chips",
+          "minutes": 4,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Spread batter into the prepared pan",
+          "minutes": 2,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Bake brownies",
+          "minutes": 30,
+          "timeSource": "quoted",
+          "quote": "Bake the brownies for 28 to 32 minutes"
+        },
+        {
+          "label": "Cool on a rack before cutting",
+          "minutes": 30,
+          "timeSource": "estimate",
+          "quote": null
+        }
+      ]
+    },
+    {
+      "slug": "banana-bread-kingarthur",
+      "site": "kingarthurbaking.com",
+      "name": "Banana Bread",
+      "url": "https://www.kingarthurbaking.com/recipes/banana-bread-recipe",
+      "steps": 7,
+      "quoted": 5,
+      "quoteGiven": 5,
+      "quoteFailed": 0,
+      "planned": 108,
+      "stated": 90,
+      "totalWithin25pct": true,
+      "detail": [
+        {
+          "label": "Preheat oven and grease loaf pan",
+          "minutes": 10,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Mix butter, sugar, spices, leaveners and salt until smooth",
+          "minutes": 3,
+          "timeSource": "quoted",
+          "quote": "for 2 to 3 minutes"
+        },
+        {
+          "label": "Stir in bananas, jam, honey, eggs, then flour and walnuts",
+          "minutes": 5,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Pan the batter and let it rest",
+          "minutes": 10,
+          "timeSource": "quoted",
+          "quote": "rest at room temperature for 10 minutes"
+        },
+        {
+          "label": "Bake, then tent with foil",
+          "minutes": 45,
+          "timeSource": "quoted",
+          "quote": "Bake the bread for 45 minutes"
+        },
+        {
+          "label": "Bake until a toothpick tests done",
+          "minutes": 25,
+          "timeSource": "quoted",
+          "quote": "Bake for an additional 25 minutes"
+        },
+        {
+          "label": "Cool in the pan",
+          "minutes": 10,
+          "timeSource": "quoted",
+          "quote": "cool for 10 minutes in the pan"
+        }
+      ]
+    },
+    {
+      "slug": "cinnamon-rolls-kingarthur",
+      "site": "kingarthurbaking.com",
+      "name": "Shortcut Cinnamon Rolls",
+      "url": "https://www.kingarthurbaking.com/recipes/shortcut-cinnamon-rolls-recipe",
+      "steps": 7,
+      "quoted": 6,
+      "quoteGiven": 6,
+      "quoteFailed": 0,
+      "planned": 116,
+      "stated": 115,
+      "totalWithin25pct": true,
+      "detail": [
+        {
+          "label": "Mix dough",
+          "minutes": 1,
+          "timeSource": "quoted",
+          "quote": "about 1 minute with the mixer"
+        },
+        {
+          "label": "Knead dough",
+          "minutes": 5,
+          "timeSource": "quoted",
+          "quote": "until smooth, about 5 minutes"
+        },
+        {
+          "label": "Rest dough",
+          "minutes": 5,
+          "timeSource": "quoted",
+          "quote": "let rest for 5 minutes"
+        },
+        {
+          "label": "Make filling, roll, fill and cut rolls",
+          "minutes": 20,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Let rolls rise",
+          "minutes": 45,
+          "timeSource": "quoted",
+          "quote": "let the rolls rise for about 45 minutes"
+        },
+        {
+          "label": "Bake cinnamon rolls",
+          "minutes": 25,
+          "timeSource": "quoted",
+          "quote": "Bake for 20 to 25 minutes"
+        },
+        {
+          "label": "Cool rolls and make icing",
+          "minutes": 15,
+          "timeSource": "quoted",
+          "quote": "cool for 10 to 15 minutes"
+        }
+      ]
+    },
+    {
+      "slug": "chocolate-cake-bbcgoodfood",
+      "site": "bbcgoodfood.com",
+      "name": "Easy chocolate cake",
+      "url": "https://www.bbcgoodfood.com/recipes/easy-chocolate-cake",
+      "steps": 7,
+      "quoted": 3,
+      "quoteGiven": 3,
+      "quoteFailed": 0,
+      "planned": 75,
+      "stated": 55,
+      "totalWithin25pct": false,
+      "detail": [
+        {
+          "label": "Heat oven and prep cake tins",
+          "minutes": 10,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Beat cake batter and fill tins",
+          "minutes": 10,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Bake sponges",
+          "minutes": 20,
+          "timeSource": "quoted",
+          "quote": "Bake for 20 mins"
+        },
+        {
+          "label": "Cool cakes in tins, then on wire rack",
+          "minutes": 10,
+          "timeSource": "quoted",
+          "quote": "Leave to cool in the tin for 10 mins"
+        },
+        {
+          "label": "Melt milk chocolate and cool for buttercream",
+          "minutes": 5,
+          "timeSource": "quoted",
+          "quote": "cool for 5 mins"
+        },
+        {
+          "label": "Make chocolate buttercream",
+          "minutes": 10,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Sandwich and frost the cake",
+          "minutes": 10,
+          "timeSource": "estimate",
+          "quote": null
+        }
+      ]
+    },
+    {
+      "slug": "spaghetti-bolognese-bbcgoodfood",
+      "site": "bbcgoodfood.com",
+      "name": "The best spaghetti bolognese recipe",
+      "url": "https://www.bbcgoodfood.com/recipes/best-spaghetti-bolognese-recipe",
+      "steps": 7,
+      "quoted": 3,
+      "quoteGiven": 4,
+      "quoteFailed": 1,
+      "planned": 117,
+      "stated": 135,
+      "totalWithin25pct": true,
+      "detail": [
+        {
+          "label": "Fry bacon until golden and crisp",
+          "minutes": 10,
+          "timeSource": "quoted",
+          "quote": "fry for 10 mins until golden and crisp"
+        },
+        {
+          "label": "Fry onions, carrots, celery, garlic and rosemary",
+          "minutes": 10,
+          "timeSource": "quoted",
+          "quote": "then fry for 10 mins"
+        },
+        {
+          "label": "Brown the beef mince",
+          "minutes": 4,
+          "timeSource": "quoted",
+          "quote": "cook stirring for 3-4 mins"
+        },
+        {
+          "label": "Add tomatoes, herbs, purée, stock, wine and stir",
+          "minutes": 5,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Simmer sauce covered until rich and thick",
+          "minutes": 75,
+          "timeSource": "estimate",
+          "quote": "Cook for 1 hr 15 mins"
+        },
+        {
+          "label": "Stir in parmesan and check seasoning",
+          "minutes": 3,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Cook spaghetti and drain",
+          "minutes": 10,
+          "timeSource": "estimate",
+          "quote": null
+        }
+      ]
+    },
+    {
+      "slug": "chilli-con-carne-bbcgoodfood",
+      "site": "bbcgoodfood.com",
+      "name": "Chilli con carne recipe",
+      "url": "https://www.bbcgoodfood.com/recipes/chilli-con-carne-recipe",
+      "steps": 9,
+      "quoted": 7,
+      "quoteGiven": 7,
+      "quoteFailed": 0,
+      "planned": 72,
+      "stated": 70,
+      "totalWithin25pct": true,
+      "detail": [
+        {
+          "label": "Chop onion, red pepper and garlic",
+          "minutes": 10,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Heat oil in pan",
+          "minutes": 2,
+          "timeSource": "quoted",
+          "quote": "leave it for 1-2 minutes until hot"
+        },
+        {
+          "label": "Soften onion",
+          "minutes": 5,
+          "timeSource": "quoted",
+          "quote": "cook, stirring fairly frequently, for about 5 minutes"
+        },
+        {
+          "label": "Cook garlic, pepper and spices",
+          "minutes": 5,
+          "timeSource": "quoted",
+          "quote": "leave it to cook for another 5 minutes"
+        },
+        {
+          "label": "Brown the mince",
+          "minutes": 5,
+          "timeSource": "quoted",
+          "quote": "Keep stirring and prodding for at least 5 minutes"
+        },
+        {
+          "label": "Add stock, tomatoes, marjoram, sugar and purée, then bring to the boil",
+          "minutes": 5,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Simmer gently with lid on",
+          "minutes": 20,
+          "timeSource": "quoted",
+          "quote": "leave it for 20 minutes"
+        },
+        {
+          "label": "Add kidney beans and bubble without lid",
+          "minutes": 10,
+          "timeSource": "quoted",
+          "quote": "bubble without the lid for another 10 minutes"
+        },
+        {
+          "label": "Rest chilli off the heat with lid on",
+          "minutes": 10,
+          "timeSource": "quoted",
+          "quote": "leave your chilli to stand for 10 minutes"
+        }
+      ]
+    },
+    {
+      "slug": "lasagne-bbcgoodfood",
+      "site": "bbcgoodfood.com",
+      "name": "Classic lasagne",
+      "url": "https://www.bbcgoodfood.com/recipes/classic-lasagne-0",
+      "steps": 7,
+      "quoted": 3,
+      "quoteGiven": 3,
+      "quoteFailed": 0,
+      "planned": 125,
+      "stated": 120,
+      "totalWithin25pct": true,
+      "detail": [
+        {
+          "label": "Brown the beef mince in two batches",
+          "minutes": 10,
+          "timeSource": "quoted",
+          "quote": "for about 10 mins until browned all over"
+        },
+        {
+          "label": "Chop prosciutto and stir through the meat, then add passata, stock and nutmeg and season",
+          "minutes": 5,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Simmer the meat sauce until rich",
+          "minutes": 30,
+          "timeSource": "quoted",
+          "quote": "simmer for 30 mins until the sauce looks rich"
+        },
+        {
+          "label": "Heat the oven and oil the dish",
+          "minutes": 15,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Layer meat sauce, pasta and white sauce in the dish",
+          "minutes": 15,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Top with mozzarella and prosciutto",
+          "minutes": 5,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Bake the lasagne until bubbling and browned",
+          "minutes": 45,
+          "timeSource": "quoted",
+          "quote": "Bake for 45 mins"
+        }
+      ]
+    },
+    {
+      "slug": "green-bean-casserole-loveandlemons",
+      "site": "loveandlemons.com",
+      "name": "Green Bean Casserole",
+      "url": "https://www.loveandlemons.com/green-bean-casserole/",
+      "steps": 8,
+      "quoted": 6,
+      "quoteGiven": 6,
+      "quoteFailed": 0,
+      "planned": 92,
+      "stated": 80,
+      "totalWithin25pct": true,
+      "detail": [
+        {
+          "label": "Preheat oven to 400°F",
+          "minutes": 15,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Blanch green beans, ice bath, drain and dry",
+          "minutes": 4,
+          "timeSource": "quoted",
+          "quote": "blanch for 2 to 4 minutes"
+        },
+        {
+          "label": "Cook mushrooms in butter until soft",
+          "minutes": 10,
+          "timeSource": "quoted",
+          "quote": "cook for 8 to 10 minutes"
+        },
+        {
+          "label": "Simmer cream sauce to reduce slightly",
+          "minutes": 10,
+          "timeSource": "quoted",
+          "quote": "Cook for 10 minutes"
+        },
+        {
+          "label": "Whisk in flour and Parmesan until smooth, then assemble in baking dish",
+          "minutes": 8,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Bake covered until bubbling",
+          "minutes": 20,
+          "timeSource": "quoted",
+          "quote": "Cover and bake for 20 minutes"
+        },
+        {
+          "label": "Top with french-fried onions and bake uncovered",
+          "minutes": 10,
+          "timeSource": "quoted",
+          "quote": "Bake, uncovered, for 10 more minutes"
+        },
+        {
+          "label": "Let casserole stand before serving",
+          "minutes": 15,
+          "timeSource": "quoted",
+          "quote": "let stand for 15 minutes"
+        }
+      ]
+    },
+    {
+      "slug": "lentil-soup-loveandlemons",
+      "site": "loveandlemons.com",
+      "name": "Best Lentil Soup",
+      "url": "https://www.loveandlemons.com/lentil-soup/",
+      "steps": 5,
+      "quoted": 3,
+      "quoteGiven": 3,
+      "quoteFailed": 0,
+      "planned": 61,
+      "stated": 60,
+      "totalWithin25pct": true,
+      "detail": [
+        {
+          "label": "Chop onion, carrots, celery and kale; grate garlic; rinse lentils",
+          "minutes": 15,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Sauté onion, carrots, celery, kale stems and spices in olive oil",
+          "minutes": 8,
+          "timeSource": "quoted",
+          "quote": "cook, stirring occasionally, for 8 minutes"
+        },
+        {
+          "label": "Add garlic, tomatoes, lentils, vinegar, thyme and broth; cover and simmer until lentils are tender",
+          "minutes": 30,
+          "timeSource": "quoted",
+          "quote": "simmer for 25 to 30 minutes"
+        },
+        {
+          "label": "Add kale leaves and cook until wilted",
+          "minutes": 5,
+          "timeSource": "quoted",
+          "quote": "cook for 5 minutes"
+        },
+        {
+          "label": "Remove thyme bundle, season to taste, and garnish with parsley",
+          "minutes": 3,
+          "timeSource": "estimate",
+          "quote": null
+        }
+      ]
+    },
+    {
+      "slug": "roasted-vegetables-loveandlemons",
+      "site": "loveandlemons.com",
+      "name": "Roasted Vegetables",
+      "url": "https://www.loveandlemons.com/roasted-vegetables/",
+      "steps": 5,
+      "quoted": 0,
+      "quoteGiven": 0,
+      "quoteFailed": 0,
+      "planned": 60,
+      "stated": 40,
+      "totalWithin25pct": false,
+      "detail": [
+        {
+          "label": "Preheat oven and line 2 baking sheets with parchment",
+          "minutes": 10,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Cut vegetables, arrange in rows on sheets, drizzle with olive oil, season with salt and pepper",
+          "minutes": 10,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Roast vegetables, tossing and switching racks halfway",
+          "minutes": 30,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Optional: return vegetables to oven to reheat before serving",
+          "minutes": 5,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Mix vegetables on platter, season with salt, pepper, lemon, and herbs",
+          "minutes": 5,
+          "timeSource": "estimate",
+          "quote": null
+        }
+      ]
+    },
+    {
+      "slug": "chocolate-chip-cookies-pinchofyum",
+      "site": "pinchofyum.com",
+      "name": "The Best Soft Chocolate Chip Cookies",
+      "url": "https://pinchofyum.com/the-best-soft-chocolate-chip-cookies",
+      "steps": 6,
+      "quoted": 2,
+      "quoteGiven": 3,
+      "quoteFailed": 1,
+      "planned": 56,
+      "stated": 20,
+      "totalWithin25pct": false,
+      "detail": [
+        {
+          "label": "Preheat oven and melt butter",
+          "minutes": 5,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Beat butter and sugars, then mix in vanilla and egg",
+          "minutes": 3,
+          "timeSource": "estimate",
+          "quote": "10-15 seconds or so"
+        },
+        {
+          "label": "Mix in dry ingredients and fold in chocolate chips by hand",
+          "minutes": 4,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Roll dough into balls and place on cookie sheet",
+          "minutes": 4,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Bake cookies until puffy, dry and barely golden",
+          "minutes": 10,
+          "timeSource": "quoted",
+          "quote": "Bake for 9-11 minutes"
+        },
+        {
+          "label": "Cool cookies on the pan",
+          "minutes": 30,
+          "timeSource": "quoted",
+          "quote": "cool on the pan for a good 30 minutes or so"
+        }
+      ]
+    },
+    {
+      "slug": "ramen-pinchofyum",
+      "site": "pinchofyum.com",
+      "name": "Quick Homemade Ramen",
+      "url": "https://pinchofyum.com/quick-homemade-ramen",
+      "steps": 5,
+      "quoted": 3,
+      "quoteGiven": 3,
+      "quoteFailed": 0,
+      "planned": 25,
+      "stated": 25,
+      "totalWithin25pct": true,
+      "detail": [
+        {
+          "label": "Stir fry ginger and garlic in sesame oil",
+          "minutes": 2,
+          "timeSource": "quoted",
+          "quote": "stir fry for 2 minutes"
+        },
+        {
+          "label": "Add broth and water, bring to a simmer",
+          "minutes": 5,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Simmer shiitake mushrooms until softened",
+          "minutes": 10,
+          "timeSource": "quoted",
+          "quote": "simmer for 10 minutes"
+        },
+        {
+          "label": "Simmer instant noodles, then stir in scallions",
+          "minutes": 5,
+          "timeSource": "quoted",
+          "quote": "simmer for an additional 5 minutes"
+        },
+        {
+          "label": "Stir in kale and carrots, add toppings and season",
+          "minutes": 3,
+          "timeSource": "estimate",
+          "quote": null
+        }
+      ]
+    },
+    {
+      "slug": "chicken-pot-pie-casserole-averiecooks",
+      "site": "averiecooks.com",
+      "name": "Chicken Pot Pie Casserole",
+      "url": "https://www.averiecooks.com/chicken-pot-pie-casserole/",
+      "steps": 8,
+      "quoted": 5,
+      "quoteGiven": 5,
+      "quoteFailed": 0,
+      "planned": 73,
+      "stated": 55,
+      "totalWithin25pct": false,
+      "detail": [
+        {
+          "label": "Preheat oven and grease baking dish",
+          "minutes": 15,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Sear seasoned chicken in olive oil",
+          "minutes": 3,
+          "timeSource": "quoted",
+          "quote": "for about 3 minutes"
+        },
+        {
+          "label": "Sauté onion, potatoes and butter, then add garlic",
+          "minutes": 4,
+          "timeSource": "quoted",
+          "quote": "about 3-4 minutes"
+        },
+        {
+          "label": "Add broth and seasonings and simmer",
+          "minutes": 5,
+          "timeSource": "quoted",
+          "quote": "simmer for about 4-5 minutes"
+        },
+        {
+          "label": "Stir in flour, half-and-half and vegetables, simmer, then taste and transfer to dish",
+          "minutes": 3,
+          "timeSource": "quoted",
+          "quote": "for about 3 minutes"
+        },
+        {
+          "label": "Roll out puff pastry, top the dish, crimp, slit and egg wash",
+          "minutes": 10,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Bake until golden and risen",
+          "minutes": 28,
+          "timeSource": "quoted",
+          "quote": "for about 25 to 28 minutes"
+        },
+        {
+          "label": "Rest before serving",
+          "minutes": 5,
+          "timeSource": "estimate",
+          "quote": null
+        }
+      ]
+    },
+    {
+      "slug": "banana-bread-bars-averiecooks",
+      "site": "averiecooks.com",
+      "name": "Banana Bread Bars with Vanilla Bean Browned Butter Glaze",
+      "url": "https://www.averiecooks.com/banana-bread-bars-with-vanilla-bean-browned-butter-glaze/",
+      "steps": 7,
+      "quoted": 3,
+      "quoteGiven": 3,
+      "quoteFailed": 0,
+      "planned": 180,
+      "stated": 157,
+      "totalWithin25pct": true,
+      "detail": [
+        {
+          "label": "Preheat oven and prep pan",
+          "minutes": 10,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Mix batter: whisk wet ingredients, add bananas, fold in dry",
+          "minutes": 10,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Bake banana bars",
+          "minutes": 27,
+          "timeSource": "quoted",
+          "quote": "Bake for about 27 to 28 minutes"
+        },
+        {
+          "label": "Brown the butter",
+          "minutes": 5,
+          "timeSource": "quoted",
+          "quote": "about 5 minutes depending on pan size"
+        },
+        {
+          "label": "Whisk glaze with confectioners' sugar, vanilla bean paste and milk",
+          "minutes": 5,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Pour glaze over bars",
+          "minutes": 3,
+          "timeSource": "estimate",
+          "quote": null
+        },
+        {
+          "label": "Cool bars so glaze sets",
+          "minutes": 120,
+          "timeSource": "quoted",
+          "quote": "at least 2 to 3 hours"
+        }
+      ]
+    }
+  ]
+}

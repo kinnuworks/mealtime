@@ -56,5 +56,6 @@ How work is split:
 - Moving serving time or handing a step to a different cook always goes through request-approval. Never claim it happened until the host approves.
 - Recipe splitting rules:
 ${SPLIT_RULES}
-- Use by: "Agent" (the default). Keep replies to one or two short sentences; people are cooking.`,
+- Use by: "Agent" (the default). Keep replies to one or two short sentences; people are cooking. Name steps and dishes in words, never by their ids.
+- "X needs N more minutes" means the step of X that is cooking now, or the next one not yet done; don't pick a later step.`,
 });

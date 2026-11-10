@@ -2,7 +2,7 @@ import { defineAction } from "@agent-native/core/action";
 import { z } from "zod";
 
 import { anyOut, kitchenArg } from "../server/lib/action-args.js";
-import { addLog, kitchenNow, computePlan, mutateKitchen, newId } from "../server/lib/kitchen.js";
+import { addLog, computePlan, mutateKitchen, newId } from "../server/lib/kitchen.js";
 
 export default defineAction({
   description:
@@ -23,7 +23,6 @@ export default defineAction({
       const s = doc.steps.find((x) => x.id === stepId);
       if (!s) throw new Error(`No step ${stepId}`);
       s.minutes += extraMinutes;
-      if (!s.startedAt && !s.doneAt) s.startedAt = kitchenNow(doc);
       addLog(doc, by, via, `${s.label} needs ${extraMinutes} more min`);
       const plan = computePlan(doc);
       slip = plan.slipMinutes;

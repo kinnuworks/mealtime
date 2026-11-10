@@ -58,7 +58,7 @@ export const DEMO_DISHES: Dish[] = [
       "Add broth and use a potato masher to mash the onion and garlic into the mixture. Use a wooden spoon to scrap the bottom of the pan. Cook for 3 to 5 minutes or until thickened.",
       "Strain into a bowl, pressing down to extract all the flavour out of the onion and garlic. Transfer to gravy boat."
     ],
-    "status": "needs-steps"
+    "status": "ready"
   },
   {
     "id": "d2",
@@ -86,7 +86,7 @@ export const DEMO_DISHES: Dish[] = [
       "Pour the warm milk and butter mixture over the potatoes, then mash until creamy using a potato masher or food mill. (The mixture will seem thin at first, but the potatoes will absorb the liquid after a minute or two.) Stir in the black pepper and a splash of cream, if using.",
       "Taste and adjust the seasoning with additional salt and pepper as needed. Let the potatoes stand for 5 minutes to thicken before serving."
     ],
-    "status": "needs-steps"
+    "status": "ready"
   },
   {
     "id": "d3",
@@ -121,7 +121,7 @@ export const DEMO_DISHES: Dish[] = [
       "Transfer the mixture to the baking dish. If making ahead, stop here, cover the dish with foil, and store in the refrigerator until ready to bake.*",
       "When ready to bake, check if the stuffing feels dry at all. If it does, drizzle with a bit more broth. Melt the remaining 1½ tablespoons of butter and drizzle over the stuffing. Bake, covered, for 30 minutes. Uncover and bake for 5 to 10 more minutes to crisp the top."
     ],
-    "status": "needs-steps"
+    "status": "ready"
   },
   {
     "id": "d4",
@@ -159,7 +159,380 @@ export const DEMO_DISHES: Dish[] = [
       "This recipe makes enough filling to generously fill a 9\" pan that's at least 1 1/2\" deep. If your pan isn't quite that big, you can bake any leftover filling in custard cups; it will take 25 to 30 minutes to cook.",
       "To dress up this pie with our Light Spice Holiday Cookies , cut out and bake the cookies according to the recipe instructions. Cool the baked cookies and place them around the perimeter of the cooled pie."
     ],
-    "status": "needs-steps"
+    "status": "ready"
   }
 ];
-export const DEMO_STEPS: KStep[] = [];
+export const DEMO_STEPS: KStep[] = [
+  {
+    "id": "d1s1",
+    "dishId": "d1",
+    "label": "Let turkey sit out at room temperature",
+    "minutes": 30,
+    "quote": "Leave out for 30 min",
+    "timeSource": "quoted",
+    "confirmed": true,
+    "need": "none",
+    "handsOn": false,
+    "after": []
+  },
+  {
+    "id": "d1s2",
+    "dishId": "d1",
+    "label": "Prep roasting pan, stuff turkey and set it upside down on the rack",
+    "minutes": 15,
+    "timeSource": "estimate",
+    "confirmed": false,
+    "need": "none",
+    "handsOn": true,
+    "after": [
+      "d1s1"
+    ]
+  },
+  {
+    "id": "d1s3",
+    "dishId": "d1",
+    "label": "Roast turkey upside down",
+    "minutes": 30,
+    "quote": "Roast for 30 minutes",
+    "timeSource": "quoted",
+    "confirmed": true,
+    "need": "oven",
+    "temp": 425,
+    "handsOn": false,
+    "after": [
+      "d1s2"
+    ]
+  },
+  {
+    "id": "d1s4",
+    "dishId": "d1",
+    "label": "Flip turkey upright, brush with butter, turn oven down",
+    "minutes": 5,
+    "timeSource": "estimate",
+    "confirmed": false,
+    "need": "none",
+    "handsOn": true,
+    "after": [
+      "d1s3"
+    ]
+  },
+  {
+    "id": "d1s5",
+    "dishId": "d1",
+    "label": "Roast turkey upright at lower temperature",
+    "minutes": 45,
+    "quote": "Roast turkey 45 minutes",
+    "timeSource": "quoted",
+    "confirmed": true,
+    "need": "oven",
+    "temp": 325,
+    "handsOn": false,
+    "after": [
+      "d1s4"
+    ]
+  },
+  {
+    "id": "d1s6",
+    "dishId": "d1",
+    "label": "Brush with garlic herb butter and finish roasting",
+    "minutes": 30,
+    "quote": "a further 30 minutes",
+    "timeSource": "quoted",
+    "confirmed": true,
+    "need": "oven",
+    "temp": 325,
+    "handsOn": false,
+    "after": [
+      "d1s5"
+    ]
+  },
+  {
+    "id": "d1s7",
+    "dishId": "d1",
+    "label": "Rest turkey covered loosely with foil",
+    "minutes": 30,
+    "quote": "rest for 30 minutes",
+    "timeSource": "quoted",
+    "confirmed": true,
+    "need": "none",
+    "handsOn": false,
+    "after": [
+      "d1s6"
+    ]
+  },
+  {
+    "id": "d1s8",
+    "dishId": "d1",
+    "label": "Make gravy in the roasting pan, mash, thicken and strain",
+    "minutes": 5,
+    "quote": "Cook for 3 to 5 minutes",
+    "timeSource": "quoted",
+    "confirmed": true,
+    "need": "burner",
+    "handsOn": true,
+    "after": []
+  },
+  {
+    "id": "d2s1",
+    "dishId": "d2",
+    "label": "Scrub, dice, and start potatoes in cold salted water; bring to a boil",
+    "minutes": 15,
+    "timeSource": "estimate",
+    "confirmed": false,
+    "need": "burner",
+    "handsOn": true,
+    "after": []
+  },
+  {
+    "id": "d2s2",
+    "dishId": "d2",
+    "label": "Simmer potatoes until fork-tender",
+    "minutes": 20,
+    "quote": "15 to 20 minutes",
+    "timeSource": "quoted",
+    "confirmed": true,
+    "need": "burner",
+    "handsOn": false,
+    "after": [
+      "d2s1"
+    ]
+  },
+  {
+    "id": "d2s3",
+    "dishId": "d2",
+    "label": "Warm milk and butter in a small saucepan",
+    "minutes": 5,
+    "timeSource": "estimate",
+    "confirmed": false,
+    "need": "burner",
+    "handsOn": true,
+    "after": []
+  },
+  {
+    "id": "d2s4",
+    "dishId": "d2",
+    "label": "Drain potatoes and let sit covered with a dishtowel to release steam",
+    "minutes": 5,
+    "quote": "about 5 minutes",
+    "timeSource": "quoted",
+    "confirmed": true,
+    "need": "none",
+    "handsOn": false,
+    "after": [
+      "d2s3"
+    ]
+  },
+  {
+    "id": "d2s5",
+    "dishId": "d2",
+    "label": "Add warm milk mixture, mash, and stir in pepper and cream",
+    "minutes": 5,
+    "timeSource": "estimate",
+    "confirmed": false,
+    "need": "none",
+    "handsOn": true,
+    "after": [
+      "d2s4"
+    ]
+  },
+  {
+    "id": "d2s6",
+    "dishId": "d2",
+    "label": "Season to taste and let stand to thicken",
+    "minutes": 5,
+    "quote": "Let the potatoes stand for 5 minutes",
+    "timeSource": "quoted",
+    "confirmed": true,
+    "need": "none",
+    "handsOn": false,
+    "after": [
+      "d2s5"
+    ]
+  },
+  {
+    "id": "d3s1",
+    "dishId": "d3",
+    "label": "Cube bread, preheat oven and grease baking dish",
+    "minutes": 10,
+    "timeSource": "estimate",
+    "confirmed": false,
+    "need": "none",
+    "handsOn": true,
+    "after": []
+  },
+  {
+    "id": "d3s2",
+    "dishId": "d3",
+    "label": "Toast bread cubes on baking sheet until dry and crisp",
+    "minutes": 25,
+    "quote": "Bake for 10 to 25 minutes",
+    "timeSource": "quoted",
+    "confirmed": true,
+    "need": "oven",
+    "temp": 350,
+    "handsOn": false,
+    "after": [
+      "d3s1"
+    ]
+  },
+  {
+    "id": "d3s3",
+    "dishId": "d3",
+    "label": "Sauté onion, celery, garlic, salt and pepper in butter until softened",
+    "minutes": 8,
+    "quote": "cook for 5 to 8 minutes",
+    "timeSource": "quoted",
+    "confirmed": true,
+    "need": "burner",
+    "handsOn": true,
+    "after": []
+  },
+  {
+    "id": "d3s4",
+    "dishId": "d3",
+    "label": "Toss bread with vegetables, herbs, broth and eggs",
+    "minutes": 10,
+    "timeSource": "estimate",
+    "confirmed": false,
+    "need": "none",
+    "handsOn": true,
+    "after": [
+      "d3s3"
+    ]
+  },
+  {
+    "id": "d3s5",
+    "dishId": "d3",
+    "label": "Transfer to baking dish and drizzle with melted butter",
+    "minutes": 5,
+    "timeSource": "estimate",
+    "confirmed": false,
+    "need": "none",
+    "handsOn": true,
+    "after": [
+      "d3s4"
+    ]
+  },
+  {
+    "id": "d3s6",
+    "dishId": "d3",
+    "label": "Bake stuffing covered",
+    "minutes": 30,
+    "quote": "Bake, covered, for 30 minutes",
+    "timeSource": "quoted",
+    "confirmed": true,
+    "need": "oven",
+    "temp": 350,
+    "handsOn": false,
+    "after": [
+      "d3s5"
+    ]
+  },
+  {
+    "id": "d3s7",
+    "dishId": "d3",
+    "label": "Uncover and bake to crisp the top",
+    "minutes": 10,
+    "quote": "bake for 5 to 10 more minutes",
+    "timeSource": "quoted",
+    "confirmed": true,
+    "need": "oven",
+    "temp": 350,
+    "handsOn": false,
+    "after": [
+      "d3s6"
+    ]
+  },
+  {
+    "id": "d4s1",
+    "dishId": "d4",
+    "label": "Whisk sugars, flour, salt and spices",
+    "minutes": 5,
+    "timeSource": "estimate",
+    "confirmed": false,
+    "need": "none",
+    "handsOn": true,
+    "after": []
+  },
+  {
+    "id": "d4s2",
+    "dishId": "d4",
+    "label": "Beat eggs, pumpkin and cream, then whisk into dry ingredients",
+    "minutes": 5,
+    "timeSource": "estimate",
+    "confirmed": false,
+    "need": "none",
+    "handsOn": true,
+    "after": [
+      "d4s1"
+    ]
+  },
+  {
+    "id": "d4s3",
+    "dishId": "d4",
+    "label": "Grease pan, roll out dough and crimp crust",
+    "minutes": 15,
+    "timeSource": "estimate",
+    "confirmed": false,
+    "need": "none",
+    "handsOn": true,
+    "after": [
+      "d4s2"
+    ]
+  },
+  {
+    "id": "d4s4",
+    "dishId": "d4",
+    "label": "Chill crust while oven preheats",
+    "minutes": 15,
+    "timeSource": "estimate",
+    "confirmed": false,
+    "need": "oven",
+    "temp": 400,
+    "handsOn": false,
+    "after": [
+      "d4s3"
+    ]
+  },
+  {
+    "id": "d4s5",
+    "dishId": "d4",
+    "label": "Set pan on baking sheet and pour in filling",
+    "minutes": 3,
+    "timeSource": "estimate",
+    "confirmed": false,
+    "need": "none",
+    "handsOn": true,
+    "after": [
+      "d4s4"
+    ]
+  },
+  {
+    "id": "d4s6",
+    "dishId": "d4",
+    "label": "Bake pie until set 2\" in from the edge",
+    "minutes": 50,
+    "quote": "Bake for 45 to 50 minutes",
+    "timeSource": "quoted",
+    "confirmed": true,
+    "need": "oven",
+    "temp": 400,
+    "handsOn": false,
+    "after": [
+      "d4s5"
+    ]
+  },
+  {
+    "id": "d4s7",
+    "dishId": "d4",
+    "label": "Cool pie on a rack so the center finishes cooking",
+    "minutes": 60,
+    "timeSource": "estimate",
+    "confirmed": false,
+    "need": "none",
+    "handsOn": false,
+    "after": [
+      "d4s6"
+    ]
+  }
+];

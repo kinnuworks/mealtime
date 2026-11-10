@@ -21,6 +21,20 @@ export default defineAction({
       const s = doc.steps.find((x) => x.id === stepId);
       if (!s) throw new Error(`No step ${stepId}`);
       const now = kitchenNow(doc);
+      if (status === "start" || status === "done") {
+        // Starting a step means the steps before it are behind you.
+        const seen = new Set<string>();
+        const walk = (id: string) => {
+          for (const prevId of doc.steps.find((x) => x.id === id)?.after ?? []) {
+            if (seen.has(prevId)) continue;
+            seen.add(prevId);
+            const prev = doc.steps.find((x) => x.id === prevId);
+            if (prev && !prev.doneAt) { prev.startedAt ??= now - prev.minutes * 60_000; prev.doneAt = now; }
+            walk(prevId);
+          }
+        };
+        walk(s.id);
+      }
       if (status === "start") s.startedAt = now;
       if (status === "done") { s.startedAt ??= now - s.minutes * 60_000; s.doneAt = now; }
       if (status === "undo") { s.startedAt = undefined; s.doneAt = undefined; }

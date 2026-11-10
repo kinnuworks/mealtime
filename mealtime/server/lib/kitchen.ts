@@ -173,10 +173,28 @@ export interface Plan {
   timeCheck: { dishId: string; dishName: string; planned: number; stated?: number; ok: boolean | null }[];
 }
 
+const SLIP_GRACE = 2;
+
 export function computePlan(doc: KitchenDoc, nowMs = kitchenNow(doc)): Plan {
   const rel = (t: number) => (t - doc.serveAt) / MIN;
+  // A step that hasn't been marked but comes before one that's already cooking
+  // must be finished: place it just before, and call it done.
+  const byId = new Map(doc.steps.map((s) => [s.id, s]));
+  const impliedEnd = new Map<string, number>();
+  const mark = (id: string, endMs: number) => {
+    for (const prevId of byId.get(id)?.after ?? []) {
+      const prev = byId.get(prevId);
+      if (!prev || prev.startedAt || prev.doneAt) continue;
+      const end = Math.min(endMs, impliedEnd.get(prevId) ?? Infinity);
+      impliedEnd.set(prevId, end);
+      mark(prevId, end - prev.minutes * MIN);
+    }
+  };
+  for (const s of doc.steps) if (s.startedAt) mark(s.id, s.startedAt);
   const steps: SchedStep[] = doc.steps.map((s) => {
     const base: SchedStep = { id: s.id, minutes: Math.max(1, Math.round(s.minutes)), need: s.need, temp: s.temp, handsOn: s.handsOn, after: s.after, cook: s.cook };
+    const ie = impliedEnd.get(s.id);
+    if (ie !== undefined) return { ...base, fixedStart: rel(ie) - base.minutes, fixedEnd: rel(ie) };
     if (s.doneAt && s.startedAt) return { ...base, fixedStart: rel(s.startedAt), fixedEnd: rel(s.doneAt) };
     if (s.startedAt) return { ...base, fixedStart: rel(s.startedAt), fixedEnd: Math.max(rel(s.startedAt) + base.minutes, rel(nowMs)) };
     if (s.pinnedStart) return { ...base, fixedStart: rel(s.pinnedStart), pinned: true };
@@ -194,7 +212,7 @@ export function computePlan(doc: KitchenDoc, nowMs = kitchenNow(doc)): Plan {
   }).sort((a, b) => a.start - b.start);
   const nextByCook = new Set<string>();
   for (const s of out) {
-    if (s.doneAt) s.state = "done";
+    if (s.doneAt || impliedEnd.has(s.id)) s.state = "done";
     else if (s.startedAt) s.state = "running";
     else {
       const who = s.assignedCook ?? "Anyone";
@@ -209,8 +227,9 @@ export function computePlan(doc: KitchenDoc, nowMs = kitchenNow(doc)): Plan {
   return {
     steps: out,
     serveAt: doc.serveAt,
-    projectedServeAt: doc.serveAt + r.slip * MIN,
-    slipMinutes: r.slip,
+    // A minute or two of drift isn't "late": nobody reschedules dinner over it.
+    projectedServeAt: doc.serveAt + (r.slip > SLIP_GRACE ? r.slip : 0) * MIN,
+    slipMinutes: r.slip > SLIP_GRACE ? r.slip : 0,
     firstStart: out[0]?.start ?? doc.serveAt,
     conflicts: r.conflicts,
     timeCheck,

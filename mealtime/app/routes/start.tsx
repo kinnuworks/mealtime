@@ -22,11 +22,11 @@ export default function Start() {
     };
   }, [navigate]);
   return (
-    <main className="flex min-h-dvh items-center justify-center p-6 text-center">
+    <main className="mt-app flex min-h-dvh items-center justify-center p-6 text-center">
       {error ? (
         <p className="text-sm text-red-600">Couldn't open the demo kitchen: {error}</p>
       ) : (
-        <p className="text-sm text-muted-foreground">Setting the table…</p>
+        <p className="mt-h1" style={{ fontSize: 28 }}>Setting the table…</p>
       )}
     </main>
   );

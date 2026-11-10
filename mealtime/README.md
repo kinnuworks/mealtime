@@ -4,14 +4,14 @@ Mealtime plans a big meal backwards from dinner time, so every dish comes out to
 
 It's built on Agent-Native because the agent and the screens edit the same plan through the same actions. Tell the agent "the potatoes need 10 more minutes" and the timeline, both phones and the activity log update together. The host taps to approve before dinner time moves.
 
-**Live app: https://mealtime-kitchen.vercel.app** (no sign-up; every visitor gets their own demo kitchen)
+**Live app: https://mealtime-kitchen.vercel.app**. Every visitor gets their own demo kitchen with no sign-up. Talking to the agent asks you to sign in, because the framework only lets signed-in people use the site's AI key.
 
 ## Try it in 30 seconds
 
 1. Open the live app. A Thanksgiving dinner for two cooks, built from four real recipes, is already planned.
 2. Click any bar on the timeline. You'll see the sentence from the recipe that the step's time comes from.
 3. Press **Start cooking now**, then **Done** on Sam's phone (the frame on the right, or scan the QR code with your own phone).
-4. Type "the turkey needs 20 more minutes" to the agent. Dinner slips, and an approval card asks you whether to move it.
+4. Sign in, then tell the agent "the turkey needs 20 more minutes". It adds the time to the right step, works out how late dinner will be, and puts an approval card at the top of the page. Nothing moves until you press Approve.
 
 ## How it works
 
@@ -19,6 +19,14 @@ It's built on Agent-Native because the agent and the screens edit the same plan 
 - The agent splits a recipe into steps and copies the recipe's own words for each time, for example "bake for 25 to 30 minutes". `set-dish-steps` checks that sentence against the recipe text. A step whose time the recipe doesn't give is marked as an estimate (amber dashed border) until the host confirms it.
 - Moving dinner time or handing a step to another cook goes through `request-approval` and shows up as a one-tap card.
 - The timeline buttons, the cook phones and the agent all call the same actions in `actions/`. The activity log records who made each change and where it came from (timeline, phone or agent). The same actions are also offered over the app's MCP endpoint, which asks for sign-in.
+
+## How well the recipe splitting works
+
+I ran the same splitting rules on 20 recipes from 8 recipe sites (`scripts/split-recipes.ts --test`, results in `fixtures/recipe-check.json`):
+
+- 136 steps in total. For 77 of them the model quoted a time from the recipe; code found 73 of those quotes in the recipe text and turned the other 4 into estimates.
+- The other 59 steps have no time in the recipe, so they show up as estimates for the host to check.
+- For 12 of the 20 recipes, the steps add up to within 25% of the recipe's own stated total. The app shows that check next to each dish.
 
 ## Run it locally
 

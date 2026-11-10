@@ -27,10 +27,11 @@ export default function CookPhone() {
   if (!me) {
     return (
       <Shell>
-        <p className="mb-4 text-lg font-semibold">Who's cooking on this phone?</p>
-        <div className="flex flex-col gap-2">
+        <span className="mt-eyebrow" style={{ marginTop: 24 }}><span className="dot" />Mealtime</span>
+        <p className="mt-h1" style={{ fontSize: 30 }}>Who's cooking on this phone?</p>
+        <div className="flex flex-col gap-2" style={{ marginTop: 12 }}>
           {cooks.map((c) => (
-            <button key={c} type="button" className="rounded-lg border px-4 py-3 text-lg" onClick={() => setParams({ as: c })}>
+            <button key={c} type="button" className="mt-btn mt-btn--lg" style={{ justifyContent: "flex-start" }} onClick={() => setParams({ as: c })}>
               {c}
             </button>
           ))}
@@ -53,32 +54,35 @@ export default function CookPhone() {
 
   return (
     <Shell>
-      <p className="text-xs text-muted-foreground">
-        {me} · dinner at {fmtTime(kitchen.plan.projectedServeAt)}
-        {kitchen.plan.slipMinutes ? ` (${kitchen.plan.slipMinutes} min late)` : ""}
-      </p>
+      <div className="mt-cook__top">
+        <span className="mt-eyebrow"><span className="dot" />{me}</span>
+        <span>
+          Dinner <b className="mt-mono">{fmtTime(kitchen.plan.projectedServeAt)}</b>
+          {kitchen.plan.slipMinutes ? <span style={{ color: "var(--mt-late)" }}> · {kitchen.plan.slipMinutes} min late</span> : null}
+        </span>
+      </div>
       {current ? (
         <StepCard step={current} now={now + clockOffset} units={kitchen.units} />
       ) : (
-        <p className="mt-6 text-lg">Nothing left for you. Go set the table.</p>
+        <div className="mt-stepcard"><p className="mt-h1" style={{ fontSize: 26 }}>Nothing left for you.</p><p className="mt-sub">Go set the table.</p></div>
       )}
       {current ? (
-        <div className="mt-4 grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 gap-2">
           {current.state === "running" ? (
-            <button type="button" disabled={busy} className="col-span-2 rounded-lg bg-foreground py-3 text-lg text-background" onClick={() => run("mark-step", { stepId: current.id, status: "done" })}>
+            <button type="button" disabled={busy} className="mt-btn mt-btn--ink mt-btn--lg col-span-2" onClick={() => run("mark-step", { stepId: current.id, status: "done" })}>
               Done
             </button>
           ) : (
-            <button type="button" disabled={busy} className="col-span-2 rounded-lg bg-foreground py-3 text-lg text-background" onClick={() => run("mark-step", { stepId: current.id, status: "start" })}>
+            <button type="button" disabled={busy} className="mt-btn mt-btn--ink mt-btn--lg col-span-2" onClick={() => run("mark-step", { stepId: current.id, status: "start" })}>
               Start
             </button>
           )}
           {current.state === "running" ? (
             <>
-              <button type="button" disabled={busy} className="rounded-lg border py-2" onClick={() => run("report-delay", { stepId: current.id, extraMinutes: 5 })}>
+              <button type="button" disabled={busy} className="mt-btn" onClick={() => run("report-delay", { stepId: current.id, extraMinutes: 5 })}>
                 Need 5 more min
               </button>
-              <button type="button" disabled={busy} className="rounded-lg border py-2" onClick={() => run("report-delay", { stepId: current.id, extraMinutes: 10 })}>
+              <button type="button" disabled={busy} className="mt-btn" onClick={() => run("report-delay", { stepId: current.id, extraMinutes: 10 })}>
                 Need 10 more min
               </button>
             </>
@@ -86,13 +90,13 @@ export default function CookPhone() {
         </div>
       ) : null}
       {after.length ? (
-        <div className="mt-6">
-          <p className="mb-1 text-xs font-semibold uppercase text-muted-foreground">After that</p>
-          <ul className="text-sm">
+        <div className="mt-card" style={{ padding: "14px 18px" }}>
+          <p className="mt-eyebrow">After that</p>
+          <ul className="mt-next" style={{ marginTop: 4 }}>
             {after.map((s) => (
-              <li key={s.id} className="flex justify-between border-b py-1">
-                <span>{s.label} <span className="text-muted-foreground">· {s.dishName}</span></span>
-                <span className="text-muted-foreground">{fmtTime(s.start)}</span>
+              <li key={s.id}>
+                <span><b style={{ fontWeight: 650 }}>{s.label}</b> <span style={{ color: "var(--mt-ink-3)" }}>· {s.dishName}</span></span>
+                <span className="mt-mono" style={{ color: "var(--mt-ink-3)" }}>{fmtTime(s.start)}</span>
               </li>
             ))}
           </ul>
@@ -112,22 +116,22 @@ function StepCard({ step, now, units }: { step: PlanStep; now: number; units: st
   const ss = String(abs % 60).padStart(2, "0");
   const clock = h ? `${h}:${String(m).padStart(2, "0")}:${ss}` : `${m}:${ss}`;
   return (
-    <div className="mt-3 rounded-xl border p-4">
-      <p className="text-xs uppercase text-muted-foreground">{step.dishName}</p>
-      <h1 className="text-2xl font-semibold leading-tight">{step.label}</h1>
-      <p className="text-sm text-muted-foreground">
+    <div className="mt-stepcard">
+      <p className="mt-eyebrow">{step.dishName}</p>
+      <h1>{step.label}</h1>
+      <p className="text-sm" style={{ color: "var(--mt-ink-3)" }}>
         {fmtDur(step.minutes)}
         {step.need === "oven" ? ` · oven ${step.temp ?? "?"}°${units}` : step.need === "burner" ? " · stovetop" : ""}
       </p>
-      <p className={`mt-3 text-4xl font-semibold tabular-nums ${secs < 0 ? "text-red-600" : ""}`}>
-        <span className="block text-xs font-normal text-muted-foreground">{label}</span>
+      <p className={`mt-count ${secs < 0 ? "mt-count--over" : ""}`}>
+        <span className="mt-count-label">{label}</span>
         {clock}
       </p>
-      {step.quote ? <p className="mt-2 text-xs text-muted-foreground">Recipe: “{step.quote}”</p> : null}
+      {step.quote ? <p className="mt-quote" style={{ fontSize: 13 }}>From the recipe: <q style={{ fontSize: 16 }}>{step.quote}</q></p> : null}
     </div>
   );
 }
 
 function Shell({ children }: { children: React.ReactNode }) {
-  return <main className="mx-auto min-h-dvh max-w-md p-4">{children}</main>;
+  return <main className="mt-app mt-cook">{children}</main>;
 }
