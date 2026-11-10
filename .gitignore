@@ -8,3 +8,5 @@ SETUP.md
 gitignore-add.txt
 
 video/
+
+.playwright-mcp/

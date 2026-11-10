@@ -33,7 +33,11 @@ export function useKitchen(key: string) {
     const tick = async () => {
       if (stop || document.hidden) return;
       try {
-        const r = (await callAction("get-kitchen-version", { kitchen: key } as never)) as unknown as { version: number };
+        // GET, like the action declares (callAction would POST and get a 405).
+        const res = await fetch(`/_agent-native/actions/get-kitchen-version?kitchen=${encodeURIComponent(key)}`, { credentials: "include" });
+        if (!res.ok) return;
+        const body = (await res.json()) as { version?: number; result?: { version: number } };
+        const r = { version: body.result?.version ?? body.version };
         if (seen.current !== undefined && r.version !== seen.current) {
           await qc.invalidateQueries({ queryKey: ["action", "get-kitchen"] });
           await q.refetch();
